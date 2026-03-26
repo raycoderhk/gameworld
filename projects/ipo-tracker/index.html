@@ -15,9 +15,11 @@
             --hk-gold: #fbbf24;
             --hk-green: #22c55e;
             --hk-red: #ef4444;
+            --ai-purple: #8b5cf6;
+            --ai-pink: #d946ef;
         }
+        * { font-family: 'Noto Sans HK', sans-serif; }
         body {
-            font-family: 'Noto Sans HK', sans-serif;
             background: linear-gradient(135deg, var(--hk-dark) 0%, #1e3a5f 100%);
             min-height: 100vh;
             color: #e5e7eb;
@@ -41,43 +43,17 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .ipo-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
         }
         .price-up { color: var(--hk-green); }
         .price-down { color: var(--hk-red); }
         .ai-badge {
-            background: linear-gradient(135deg, #8b5cf6, #d946ef);
-            font-size: 0.75rem;
-        }
-        .holding-badge {
-            background: var(--hk-accent);
+            background: linear-gradient(135deg, var(--ai-purple), var(--ai-pink));
         }
         .section-title {
             border-left: 4px solid var(--hk-accent);
             padding-left: 12px;
-        }
-        .toast-custom {
-            background: var(--hk-card);
-            border: 1px solid var(--hk-accent);
-        }
-        #ai-panel {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(217, 70, 239, 0.1));
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--hk-accent);
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-8px); }
         }
         .refresh-btn {
             background: rgba(59, 130, 246, 0.2);
@@ -88,13 +64,74 @@
             background: var(--hk-accent);
             color: white;
         }
+        #ai-panel {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(217, 70, 239, 0.08)) !important;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--ai-purple);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+        .ai-response {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .analysis-card {
+            border-left: 3px solid var(--ai-purple);
+        }
+        .stock-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .stock-chip:hover, .stock-chip.active {
+            background: var(--ai-purple);
+            color: white;
+        }
+        .heat-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .heat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--hk-gold), #f97316);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        .modal-content { background: var(--hk-card) !important; }
+        .toast-custom {
+            background: var(--hk-card);
+            border: 1px solid var(--hk-accent);
+        }
+        .pros { color: var(--hk-green); }
+        .cons { color: var(--hk-red); }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand fw-bold" href="#">
                 <i class="bi bi-graph-up-arrow me-2"></i>IPO 追踪器
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -102,103 +139,87 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#upcoming"><i class="bi bi-calendar-event me-1"></i>新股日历</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#grey-market"><i class="bi bi-moon-stars me-1"></i>暗盘行情</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#holdings"><i class="bi bi-wallet2 me-1"></i>我的持仓</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#ai-analysis"><i class="bi bi-stars me-1"></i>AI 分析</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#upcoming"><i class="bi bi-calendar-event me-1"></i>新股日历</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#grey-market"><i class="bi bi-moon-stars me-1"></i>暗盘</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#holdings"><i class="bi bi-wallet2 me-1"></i>持仓</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#ai-analysis"><span class="badge ai-badge">AI</span> 分析</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <div class="container py-4">
-        <!-- Header Stats -->
+        <!-- Stats Bar -->
         <div class="row g-3 mb-4">
-            <div class="col-md-3">
+            <div class="col-6 col-md-3">
                 <div class="card text-center py-3">
-                    <div class="card-body">
-                        <h3 class="mb-1" id="total-ipos">12</h3>
+                    <div class="card-body p-0">
+                        <h3 class="mb-0 text-white">12</h3>
                         <small class="text-muted">本月新股</small>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-6 col-md-3">
                 <div class="card text-center py-3">
-                    <div class="card-body">
-                        <h3 class="mb-1" id="total-raised">$28.5B</h3>
+                    <div class="card-body p-0">
+                        <h3 class="mb-0 text-white">$28.5B</h3>
                         <small class="text-muted">集资总额</small>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-6 col-md-3">
                 <div class="card text-center py-3">
-                    <div class="card-body">
-                        <h3 class="mb-1 text-warning" id="hot-ipos">3</h3>
+                    <div class="card-body p-0">
+                        <h3 class="mb-0 text-warning">3</h3>
                         <small class="text-muted">热门新股</small>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-6 col-md-3">
                 <div class="card text-center py-3">
-                    <div class="card-body">
-                        <h3 class="mb-1 text-success" id="my-pnl">+12.5%</h3>
+                    <div class="card-body p-0">
+                        <h3 class="mb-0 text-success">+12.5%</h3>
                         <small class="text-muted">我的盈亏</small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Upcoming IPOs Section -->
+        <!-- Upcoming IPOs -->
         <section id="upcoming" class="mb-5">
             <h4 class="section-title mb-3"><i class="bi bi-calendar-event me-2"></i>新股日历</h4>
-            <div class="row g-3" id="upcoming-ipo-list">
-                <!-- IPO cards will be injected here -->
-            </div>
+            <div class="row g-3" id="upcoming-ipo-list"></div>
         </section>
 
-        <!-- Grey Market Section -->
+        <!-- Grey Market -->
         <section id="grey-market" class="mb-5">
             <h4 class="section-title mb-3"><i class="bi bi-moon-stars me-2"></i>暗盘行情</h4>
             <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th>股票</th>
-                                    <th>暗盘价</th>
-                                    <th>暗盘涨跌</th>
-                                    <th>发行价</th>
-                                    <th>升跌幅</th>
-                                    <th>热度</th>
-                                </tr>
-                            </thead>
-                            <tbody id="grey-market-table">
-                                <!-- Grey market data will be injected here -->
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>股票</th>
+                                <th>暗盘价</th>
+                                <th>暗盘涨跌</th>
+                                <th>发行价</th>
+                                <th>升跌幅</th>
+                                <th>热度</th>
+                            </tr>
+                        </thead>
+                        <tbody id="grey-market-table"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
-        <!-- My Holdings Section -->
+        <!-- Holdings -->
         <section id="holdings" class="mb-5">
             <h4 class="section-title mb-3"><i class="bi bi-wallet2 me-2"></i>我的持仓</h4>
-            <div class="row g-3" id="holdings-list">
-                <!-- Holdings will be injected here -->
-            </div>
+            <div class="row g-3" id="holdings-list"></div>
         </section>
 
-        <!-- AI Analysis Section -->
+        <!-- AI Analysis -->
         <section id="ai-analysis" class="mb-5">
             <h4 class="section-title mb-3">
                 <span class="badge ai-badge me-2"><i class="bi bi-stars"></i> AI</span>
@@ -208,89 +229,72 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="bi bi-robot me-2"></i>IPO AI 助手</h5>
-                        <button class="btn btn-sm refresh-btn" onclick="refreshAIAnalysis()">
-                            <i class="bi bi-arrow-clockwise me-1"></i>刷新分析
+                        <button class="btn btn-sm refresh-btn" onclick="initAIAnalysis()">
+                            <i class="bi bi-arrow-clockwise me-1"></i>刷新
                         </button>
                     </div>
                     
-                    <!-- AI Analysis Content -->
-                    <div id="ai-content">
-                        <div class="mb-3">
-                            <label class="form-label text-muted">选择新股分析：</label>
-                            <select class="form-select form-select-sm bg-dark text-light border-secondary" id="ai-stock-select">
-                                <option value="huaan">華沿機器人 (明天暗盘)</option>
-                                <option value="polaris">北极星 (即将上市)</option>
-                                <option value="techfusion">科 Fusion</option>
-                            </select>
+                    <!-- Stock Selector -->
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">选择新股获取 AI 分析：</label>
+                        <div id="stock-chips">
+                            <span class="stock-chip active" data-stock="huaan">🤖 華沿機器人</span>
+                            <span class="stock-chip" data-stock="polaris">🌟 北极星</span>
+                            <span class="stock-chip" data-stock="techfusion">💻 科 Fusion</span>
+                            <span class="stock-chip" data-stock="huahai">🧬 华海生物</span>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Results -->
+                    <div id="ai-analysis-content">
+                        <div class="analysis-card p-3 mb-3" id="heat-analysis">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge ai-badge me-2"><i class="bi bi-fire"></i></span>
+                                <strong>热度分析</strong>
+                            </div>
+                            <div id="heat-content"></div>
                         </div>
                         
-                        <div id="ai-analysis-result">
-                            <div class="p-3 rounded bg-dark bg-opacity-50 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="badge ai-badge me-2">热度分析</span>
-                                    <strong>華沿機器人</strong>
-                                </div>
-                                <p class="mb-2">基于近期市场数据和投资者关注度：</p>
-                                <ul class="mb-0">
-                                    <li><span class="text-warning">热度指数：</span>🔥🔥🔥🔥 (4/5)</li>
-                                    <li><span class="text-info">行业板块：</span>机器人/AI</li>
-                                    <li><span class="text-success">集资规模：</span>中等 (约5亿港元)</li>
-                                    <li><span class="text-primary">保荐人背景：</span>中资投行</li>
-                                </ul>
+                        <div class="analysis-card p-3 mb-3" id="advice-analysis">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-success me-2"><i class="bi bi-lightbulb"></i></span>
+                                <strong>认购建议</strong>
                             </div>
-                            
-                            <div class="p-3 rounded bg-dark bg-opacity-50 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="badge bg-success me-2">建议</span>
-                                    <strong>操作建议</strong>
-                                </div>
-                                <p class="mb-0">華沿機器人属于AI概念股，近期市场对AI板块关注度高。暗盘表现值得期待，建议：</p>
-                                <ul class="mb-0 mt-2">
-                                    <li>明日暗盘关注开盘价与发行价差距</li>
-                                    <li>若暗盘涨幅超过20%，可考虑分批获利</li>
-                                    <li>若破发，可考虑是否加仓摊薄成本</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="p-3 rounded bg-dark bg-opacity-50">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="badge bg-danger me-2">风险提示</span>
-                                    <strong>风险因素</strong>
-                                </div>
-                                <ul class="mb-0">
-                                    <li>机器人行业竞争激烈</li>
-                                    <li>集资规模偏小，流动性可能有限</li>
-                                    <li>市场气氛受大市影响</li>
-                                </ul>
-                            </div>
+                            <div id="advice-content"></div>
                         </div>
                         
-                        <!-- Loading State -->
-                        <div id="ai-loading" class="text-center py-4 d-none">
-                            <div class="typing-indicator mb-2">
-                                <span></span><span></span><span></span>
+                        <div class="analysis-card p-3" id="risk-analysis">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-danger me-2"><i class="bi bi-exclamation-triangle"></i></span>
+                                <strong>风险提示</strong>
                             </div>
-                            <small class="text-muted">AI 分析中...</small>
+                            <div id="risk-content"></div>
                         </div>
                     </div>
                     
+                    <div id="ai-loading" class="text-center py-4 d-none">
+                        <div class="typing-indicator mb-2"><span></span><span></span><span></span></div>
+                        <small class="text-muted">AI 分析中，请稍候...</small>
+                    </div>
+
                     <!-- Custom Query -->
                     <div class="mt-3 pt-3 border-top border-secondary">
                         <label class="form-label text-muted small">问 AI 问题：</label>
                         <div class="input-group">
                             <input type="text" class="form-control form-control-sm bg-dark text-light border-secondary" 
-                                   id="ai-query" placeholder="例如：華沿機器人值得认购吗？">
+                                   id="ai-query" placeholder="例如：華沿機器文明天暗盘会涨吗？">
                             <button class="btn btn-sm btn-primary" onclick="askAI()">
                                 <i class="bi bi-send"></i>
                             </button>
                         </div>
+                        <div id="ai-answer" class="ai-response mt-2 d-none"></div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Toast Container -->
+    <!-- Toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="alert-toast" class="toast toast-custom text-light" role="alert">
             <div class="toast-body d-flex align-items-center">
@@ -302,222 +306,199 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Sample IPO Data
+        // IPO Data
         const ipoData = [
-            {
-                code: '8666',
-                name: '華沿機器人',
-                nameEn: 'Huaan Robotics',
-                price: '待定价',
-                lots: 2,
-                status: '明天暗盘',
-                heat: 5,
-                industry: 'AI/机器人',
-                icon: '🤖'
-            },
-            {
-                code: '0999',
-                name: '北极星',
-                nameEn: 'Polaris',
-                price: 'HK$12.50',
-                lots: 1,
-                status: '即将上市',
-                heat: 4,
-                industry: '新能源',
-                icon: '🌟'
-            },
-            {
-                code: '2333',
-                name: '科 Fusion',
-                nameEn: 'Tech Fusion',
-                price: 'HK$8.80',
-                lots: 0,
-                status: '申购中',
-                heat: 3,
-                industry: '半导体',
-                icon: '💻'
-            },
-            {
-                code: '1888',
-                name: '华海生物',
-                nameEn: 'Huahai Bio',
-                price: 'HK$15.20',
-                lots: 0,
-                status: '已上市',
-                heat: 2,
-                industry: '生物医药',
-                icon: '🧬'
-            }
+            { code: '8666', name: '華沿機器人', nameEn: 'Huaan Robotics', price: 'HK$5.50', lots: 2, status: '明天暗盘', heat: 95, industry: 'AI/机器人', icon: '🤖', 
+              analysis: { heat: '🔥🔥🔥🔥🔥 (5/5) 极高热度，AI概念加持', pros: ['AI/机器人概念，当前市场最热板块', '保荐人背景强劲', '集资规模适中(5亿)', '公开发售反应热烈'], cons: ['行业竞争激烈', '估值偏高', '依赖单一市场'], advice: '建议积极认购，暗盘若涨幅<15%可考虑持有' }},
+            { code: '0999', name: '北极星', nameEn: 'Polaris', price: 'HK$12.50', lots: 1, status: '即将上市', heat: 78, industry: '新能源', icon: '🌟',
+              analysis: { heat: '🔥🔥🔥🔥 (4/5) 热度较高', pros: ['新能源赛道长期看好', '国策支持', '基石投资者优质'], cons: ['集资规模较大', '短期内涨幅可能有限'], advice: '稳健选择，适合长线' }},
+            { code: '2333', name: '科 Fusion', nameEn: 'Tech Fusion', price: 'HK$8.80', lots: 0, status: '申购中', heat: 65, industry: '半导体', icon: '💻',
+              analysis: { heat: '🔥🔥🔥 (3/5) 热度中等', pros: ['半导体国产替代概念', '技术壁垒较高'], cons: ['行业周期性较强', '近期板块走势疲软'], advice: '谨慎认购，关注定价' }},
+            { code: '1888', name: '华海生物', nameEn: 'Huahai Bio', price: 'HK$15.20', lots: 0, status: '已上市', heat: 42, industry: '生物医药', icon: '🧬',
+              analysis: { heat: '🔥🔥 (2/5) 热度较低', pros: ['创新药概念', '管线丰富'], cons: ['研发风险大', '商业化进度慢', '近期医药板块承压'], advice: '高风险长线标的，短期吸引力不足' }}
         ];
 
-        // Grey Market Data
         const greyMarketData = [
-            { code: '8666', name: '華沿機器人', greyPrice: '待暗盘', change: '明天暗盘', issuePrice: 'HK$5.50', spread: '-', heat: 85 },
-            { code: '0999', name: '北极星', greyPrice: 'HK$13.20', change: '+6.4%', issuePrice: 'HK$12.50', spread: '+6.4%', heat: 72 },
-            { code: '2333', name: '科 Fusion', greyPrice: 'HK$8.50', change: '-3.4%', issuePrice: 'HK$8.80', spread: '-3.4%', heat: 45 }
+            { code: '8666', name: '華沿機器人', greyPrice: '待暗盘', change: '明天暗盘', issuePrice: 'HK$5.50', spread: '-', heat: 95 },
+            { code: '0999', name: '北极星', greyPrice: 'HK$13.80', change: '+10.4%', issuePrice: 'HK$12.50', spread: '+10.4%', heat: 78 },
+            { code: '2333', name: '科 Fusion', greyPrice: 'HK$8.45', change: '-4.0%', issuePrice: 'HK$8.80', spread: '-4.0%', heat: 65 }
         ];
 
-        // Holdings Data
         const holdingsData = [
-            { code: '8666', name: '華沿機器人', lots: 2, avgCost: 5.50, currentPrice: '待暗盘', pnl: 0, pnlPercent: 0 }
+            { code: '8666', name: '華沿機器人', lots: 2, avgCost: 5.50, currentPrice: '待暗盘', pnlPercent: 0 }
         ];
 
-        // Render Upcoming IPOs
+        let currentStock = 'huaan';
+
+        // Render IPOs
         function renderIPOs() {
-            const container = document.getElementById('upcoming-ipo-list');
-            container.innerHTML = ipoData.map(ipo => `
+            document.getElementById('upcoming-ipo-list').innerHTML = ipoData.map(ipo => `
                 <div class="col-md-6 col-lg-4">
                     <div class="card ipo-card h-100">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex justify-content-between mb-2">
                                 <div>
-                                    <span class="badge bg-primary mb-1">${ipo.code}</span>
-                                    <h5 class="mb-0">${ipo.icon} ${ipo.name}</h5>
+                                    <span class="badge bg-primary">${ipo.code}</span>
+                                    <h5 class="mt-2 mb-0">${ipo.icon} ${ipo.name}</h5>
                                     <small class="text-muted">${ipo.nameEn}</small>
                                 </div>
                                 <span class="badge ${ipo.lots > 0 ? 'bg-warning text-dark' : 'bg-secondary'}">${ipo.status}</span>
                             </div>
                             <div class="mt-3">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <small class="text-muted">发行价</small>
-                                    <span>${ipo.price}</span>
+                                    <small class="text-muted">发行价</small><span>${ipo.price}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-1">
-                                    <small class="text-muted">行业</small>
-                                    <span>${ipo.industry}</span>
+                                    <small class="text-muted">行业</small><span>${ipo.industry}</span>
                                 </div>
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">热度</small>
-                                    <span>${'🔥'.repeat(ipo.heat)}${'😐'.repeat(5 - ipo.heat)}</span>
+                                    <div class="heat-bar" style="width:80px">
+                                        <div class="heat-fill" style="width:${ipo.heat}%"></div>
+                                    </div>
                                 </div>
                             </div>
-                            ${ipo.lots > 0 ? `
-                            <div class="mt-3 pt-2 border-top border-secondary">
-                                <small class="text-success"><i class="bi bi-check-circle me-1"></i>你中了 ${ipo.lots} 手</small>
-                            </div>
-                            ` : ''}
+                            ${ipo.lots > 0 ? `<div class="mt-2 pt-2 border-top"><small class="text-success"><i class="bi bi-check-circle"></i> 你中了 ${ipo.lots} 手</small></div>` : ''}
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Render Grey Market Table
+        // Render Grey Market
         function renderGreyMarket() {
-            const tbody = document.getElementById('grey-market-table');
-            tbody.innerHTML = greyMarketData.map(stock => {
-                const isUp = stock.change.startsWith('+');
-                const changeClass = stock.change === '明天暗盘' ? 'text-muted' : (isUp ? 'price-up' : 'price-down');
-                return `
-                <tr>
-                    <td>
-                        <span class="badge bg-primary me-2">${stock.code}</span>
-                        <strong>${stock.name}</strong>
-                    </td>
-                    <td><strong>${stock.greyPrice}</strong></td>
-                    <td class="${changeClass}">${stock.change}</td>
-                    <td>${stock.issuePrice}</td>
-                    <td class="${changeClass}">${stock.spread}</td>
-                    <td>
-                        <div class="progress" style="width: 80px; height: 8px;">
-                            <div class="progress-bar bg-warning" style="width: ${stock.heat}%"></div>
-                        </div>
-                        <small class="text-muted">${stock.heat}%</small>
-                    </td>
-                </tr>
-                `;
+            document.getElementById('grey-market-table').innerHTML = greyMarketData.map(s => {
+                const isUp = s.change.startsWith('+');
+                const cls = s.change.includes('暗盘') ? 'text-muted' : (isUp ? 'price-up' : 'price-down');
+                return `<tr>
+                    <td><span class="badge bg-primary me-2">${s.code}</span><strong>${s.name}</strong></td>
+                    <td><strong>${s.greyPrice}</strong></td>
+                    <td class="${cls}">${s.change}</td>
+                    <td>${s.issuePrice}</td>
+                    <td class="${cls}">${s.spread}</td>
+                    <td><div class="heat-bar" style="width:70px"><div class="heat-fill" style="width:${s.heat}%"></div></div></td>
+                </tr>`;
             }).join('');
         }
 
         // Render Holdings
         function renderHoldings() {
-            const container = document.getElementById('holdings-list');
-            if (holdingsData.length === 0) {
-                container.innerHTML = '<div class="col-12 text-center text-muted py-4"><i class="bi bi-inbox fs-1"></i><p class="mt-2">暂无持仓记录</p></div>';
-                return;
-            }
-            container.innerHTML = holdingsData.map(hold => `
+            const el = document.getElementById('holdings-list');
+            if (!holdingsData.length) { el.innerHTML = '<div class="col-12 text-center text-muted py-4"><i class="bi bi-inbox fs-1"></i><p class="mt-2">暂无持仓</p></div>'; return; }
+            el.innerHTML = holdingsData.map(h => `
                 <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-warning border-2">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span><strong>${hold.name}</strong> <span class="badge bg-primary ms-1">${hold.code}</span></span>
-                            <span class="badge holding-badge">${hold.lots} 手</span>
+                    <div class="card border-warning border-2">
+                        <div class="card-header d-flex justify-content-between">
+                            <strong>${h.name}</strong>
+                            <span class="badge bg-warning text-dark">${h.lots} 手</span>
                         </div>
                         <div class="card-body">
                             <div class="row text-center">
-                                <div class="col-4">
-                                    <small class="text-muted d-block">平均成本</small>
-                                    <strong>HK$${hold.avgCost.toFixed(2)}</strong>
-                                </div>
-                                <div class="col-4">
-                                    <small class="text-muted d-block">当前价</small>
-                                    <strong>${hold.currentPrice}</strong>
-                                </div>
-                                <div class="col-4">
-                                    <small class="text-muted d-block">盈亏</small>
-                                    <strong class="${hold.pnl >= 0 ? 'text-success' : 'text-danger'}">
-                                        ${hold.pnl >= 0 ? '+' : ''}${hold.pnlPercent.toFixed(1)}%
-                                    </strong>
-                                </div>
+                                <div class="col-4"><small class="text-muted">成本</small><br><strong>HK$${h.avgCost.toFixed(2)}</strong></div>
+                                <div class="col-4"><small class="text-muted">当前</small><br><strong>${h.currentPrice}</strong></div>
+                                <div class="col-4"><small class="text-muted">盈亏</small><br><strong class="text-warning">--</strong></div>
                             </div>
                         </div>
-                        <div class="card-footer bg-dark bg-opacity-50 text-center">
-                            <small class="text-warning"><i class="bi bi-calendar-event me-1"></i>${hold.code === '8666' ? '明天暗盘' : '已上市'}</small>
+                        <div class="card-footer text-center bg-dark bg-opacity-50">
+                            <small class="text-warning"><i class="bi bi-calendar-event"></i> 明天暗盘</small>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // AI Analysis Functions
-        let isLoadingAI = false;
-
-        function refreshAIAnalysis() {
-            if (isLoadingAI) return;
+        // AI Analysis
+        function renderAIAnalysis(stock) {
+            const data = ipoData.find(s => s.code === stock || s.name.includes(stock)) || ipoData[0];
+            const a = data.analysis;
             
-            const stockSelect = document.getElementById('ai-stock-select');
-            const selectedStock = stockSelect.value;
-            const resultDiv = document.getElementById('ai-analysis-result');
-            const loadingDiv = document.getElementById('ai-loading');
+            document.getElementById('heat-content').innerHTML = `
+                <p class="mb-2">${a.heat}</p>
+                <div class="small">
+                    <div class="mb-1"><strong class="text-muted">集资规模：</strong>${data.price} × 公开认购部分</div>
+                    <div class="mb-1"><strong class="text-muted">行业：</strong>${data.industry}</div>
+                    <div><strong class="text-muted">状态：</strong><span class="badge ${data.lots > 0 ? 'bg-warning text-dark' : 'bg-secondary'}">${data.status}</span></div>
+                </div>`;
             
-            isLoadingAI = true;
-            resultDiv.classList.add('d-none');
-            loadingDiv.classList.remove('d-none');
+            document.getElementById('advice-content').innerHTML = `
+                <p class="mb-2">${a.advice}</p>
+                <div class="small">
+                    <strong class="pros"><i class="bi bi-plus-circle"></i> 利好因素：</strong>
+                    <ul class="mb-2">${a.pros.map(p => `<li>${p}</li>`).join('')}</ul>
+                    <strong class="cons"><i class="bi bi-dash-circle"></i> 利空因素：</strong>
+                    <ul class="mb-0">${a.cons.map(c => `<li>${c}</li>`).join('')}</ul>
+                </div>`;
             
-            // Simulate AI API call (MiniMax)
-            setTimeout(() => {
-                loadingDiv.classList.add('d-none');
-                resultDiv.classList.remove('d-none');
-                isLoadingAI = false;
-                showToast('AI 分析已更新');
-            }, 2000);
+            document.getElementById('risk-content').innerHTML = `
+                <ul class="mb-0 small">
+                    ${a.cons.map(c => `<li class="text-danger">${c}</li>`).join('')}
+                    <li class="text-muted">以上分析仅供参考，不构成投资建议</li>
+                </ul>`;
         }
 
-        function askAI() {
+        function initAIAnalysis() {
+            renderAIAnalysis(currentStock);
+            showToast('AI 分析已更新');
+        }
+
+        // Stock chip selection
+        document.querySelectorAll('.stock-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.stock-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentStock = chip.dataset.stock;
+                initAIAnalysis();
+            });
+        });
+
+        // Ask AI (MiniMax integration ready)
+        async function askAI() {
             const query = document.getElementById('ai-query').value.trim();
             if (!query) return;
             
-            showToast('AI 分析中...');
+            const answerEl = document.getElementById('ai-answer');
+            answerEl.classList.remove('d-none');
+            answerEl.innerHTML = '<span class="text-muted">AI 分析中...</span>';
             
-            // Here you would call MiniMax API
-            // For demo, just acknowledge
+            // MiniMax API call would go here
+            // For demo, use simulated response
             setTimeout(() => {
-                showToast('AI 问题已发送 (演示模式)');
+                const responses = [
+                    `根据当前市场数据，華沿機器人暗盘表现值得期待。建议：
+• 若暗盘涨幅 <15%：可考虑持有
+• 若涨幅 15-30%：分批获利
+• 若涨幅 >30%：注意回调风险
+
+⚠️ 风险提示：AI板块近期波动较大，请注意止损。`,
+                    `華沿機器人属于AI概念热门股，明天暗盘关键点位：
+• 支撑位：发行价 HK$5.50
+• 初步目标：HK$6.60-7.00 (+20-27%)
+• 止损位：HK$5.20 (-5%)
+
+💡 操作建议：控制仓位，留足子弹。`,
+                    `从热度角度分析，華沿機器人明天暗盘：
+✅ 超购倍数预计 50+ 倍
+✅ AI概念持续发酵
+⚠️ 注意大市气氛影响
+⚠️ 关注暗盘开盘竞价`
+                ];
+                answerEl.innerHTML = responses[Math.floor(Math.random() * responses.length)];
                 document.getElementById('ai-query').value = '';
-            }, 1000);
+            }, 1500);
         }
 
-        function showToast(message) {
-            const toast = new bootstrap.Toast(document.getElementById('alert-toast'));
-            document.getElementById('toast-message').textContent = message;
-            toast.show();
+        function showToast(msg) {
+            const t = new bootstrap.Toast(document.getElementById('alert-toast'));
+            document.getElementById('toast-message').textContent = msg;
+            t.show();
         }
 
-        // Initialize
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             renderIPOs();
             renderGreyMarket();
             renderHoldings();
+            renderAIAnalysis('huaan');
         });
     </script>
 </body>
