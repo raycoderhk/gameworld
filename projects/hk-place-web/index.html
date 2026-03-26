@@ -554,9 +554,25 @@
     <section id="gameworld" class="py-5" style="background: linear-gradient(180deg, var(--hk-deep-blue) 0%, #1a0a28 100%);">
         <div class="container">
             <h2 class="section-title">🎮 GameWorld</h2>
-            <p class="section-subtitle">休閒小遊戲，放鬆一下</p>
+            <p class="section-subtitle">休閒小遊戲 + IPO 追蹤器</p>
             
             <div class="row g-4">
+                <!-- IPO Tracker -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(59, 130, 246, 0.3);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">📈</div>
+                            <h5 class="card-title">IPO 追蹤器</h5>
+                            <p class="card-text text-muted small">新股日历・暗盘行情・AI 分析</p>
+                            <div class="mb-2">
+                                <span class="badge bg-warning text-dark me-1">🔥 華沿機器人</span>
+                                <span class="badge bg-primary">明天暗盘</span>
+                            </div>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('ipo')">打開 App</button>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Flappy Bird Clone -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
@@ -746,6 +762,7 @@
 
         function launchGame(gameType) {
             document.getElementById('gameModalTitle').textContent = {
+                'ipo': '📈 IPO 追蹤器',
                 'flappy': '🐦 Flappy HK',
                 'snake': '🐍 貪食蛇',
                 'memory': '🧠 記憶大師',
@@ -754,10 +771,19 @@
                 'tictactoe': '⭕ 圈圈叉叉'
             }[gameType] || '遊戲';
             
+            // Larger modal for IPO app
+            const modalDialog = document.querySelector('#gameModal .modal-dialog');
+            if (gameType === 'ipo') {
+                modalDialog.classList.add('modal-xl');
+            } else {
+                modalDialog.classList.remove('modal-xl');
+            }
+            
             const container = document.getElementById('gameContainer');
             container.innerHTML = '';
             
             switch(gameType) {
+                case 'ipo': initIPOApp(container); break;
                 case 'flappy': initFlappyBird(container); break;
                 case 'snake': initSnake(container); break;
                 case 'memory': initMemory(container); break;
@@ -767,6 +793,118 @@
             }
             
             gameModal.show();
+        }
+
+        // ---- IPO APP ----
+        function initIPOApp(container) {
+            container.innerHTML = `
+            <div style="background: linear-gradient(135deg, #0a0f1a 0%, #1e3a5f 100%); min-height: 500px; padding: 20px; border-radius: 8px;">
+                <div class="row g-3 mb-3">
+                    <div class="col-6 col-md-3">
+                        <div class="bg-dark rounded p-2 text-center">
+                            <small class="text-muted">本月新股</small>
+                            <h4 class="mb-0 text-white">12</h4>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="bg-dark rounded p-2 text-center">
+                            <small class="text-muted">集资总额</small>
+                            <h4 class="mb-0 text-white">$28.5B</h4>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="bg-dark rounded p-2 text-center">
+                            <small class="text-muted">热门新股</small>
+                            <h4 class="mb-0 text-warning">3</h4>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="bg-dark rounded p-2 text-center">
+                            <small class="text-muted">我的盈亏</small>
+                            <h4 class="mb-0 text-success">+12.5%</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- IPO List -->
+                <div class="row g-2 mb-3">
+                    <div class="col-12">
+                        <h6 class="text-muted mb-2"><i class="bi bi-calendar-event me-1"></i>新股日历</h6>
+                    </div>
+                    ${['8666', '0999', '2333', '1888'].map((code, i) => {
+                        const names = ['華沿機器人', '北极星', '科 Fusion', '华海生物'];
+                        const prices = ['HK$5.50', 'HK$12.50', 'HK$8.80', 'HK$15.20'];
+                        const status = ['明天暗盘', '即将上市', '申购中', '已上市'];
+                        const heat = [95, 78, 65, 42];
+                        const icons = ['🤖', '🌟', '💻', '🧬'];
+                        const lots = [2, 1, 0, 0];
+                        return `
+                        <div class="col-md-6">
+                            <div class="bg-dark rounded p-2 d-flex justify-content-between align-items-center ${code === '8666' ? 'border border-warning' : ''}">
+                                <div>
+                                    <span class="badge bg-primary me-1">${code}</span>
+                                    <span class="me-2">${icons[i]}</span>
+                                    <strong>${names[i]}</strong>
+                                </div>
+                                <div class="text-end">
+                                    <div class="small text-muted">${prices[i]}</div>
+                                    <div class="small ${status[i] === '明天暗盘' ? 'text-warning' : 'text-muted'}">${status[i]}${lots[i] > 0 ? ` • 中了${lots[i]}手` : ''}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                
+                <!-- Holdings -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h6 class="text-muted mb-2"><i class="bi bi-wallet2 me-1"></i>我的持仓</h6>
+                        <div class="bg-dark rounded p-3 border border-warning">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong class="text-warning">🤖 華沿機器人</strong>
+                                    <span class="badge bg-primary ms-1">8666</span>
+                                    <span class="badge bg-warning text-dark ms-1">2 手</span>
+                                </div>
+                                <div class="text-end">
+                                    <div class="small text-muted">成本: HK$5.50</div>
+                                    <div class="small text-warning">明天暗盘</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Analysis -->
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-muted mb-2">
+                            <span class="badge" style="background: linear-gradient(135deg, #8b5cf6, #d946ef);">AI</span>
+                            智能分析
+                        </h6>
+                        <div class="bg-dark rounded p-3" style="border: 1px solid rgba(139, 92, 246, 0.3);">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge me-2" style="background: linear-gradient(135deg, #8b5cf6, #d946ef);">🔥</span>
+                                <strong>華沿機器人热度分析</strong>
+                            </div>
+                            <p class="small mb-2">🔥🔥🔥🔥🔥 (5/5) 极高热度，AI概念加持</p>
+                            <div class="small">
+                                <div class="mb-1"><span class="text-success">✓</span> AI/机器人概念，当前市场最热板块</div>
+                                <div class="mb-1"><span class="text-success">✓</span> 保荐人背景强劲</div>
+                                <div class="mb-1"><span class="text-success">✓</span> 公开发售反应热烈</div>
+                                <div class="mb-1"><span class="text-danger">✗</span> 行业竞争激烈</div>
+                                <div class="mb-0"><span class="text-danger">✗</span> 估值偏高</div>
+                            </div>
+                            <hr class="border-secondary my-2">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-success me-2">💡</span>
+                                <strong>认购建议</strong>
+                            </div>
+                            <p class="small mb-0">建议积极认购，暗盘若涨幅 <15% 可考虑持有。明天暗盘关注开盘价与发行价差距。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
         }
 
         // ---- FLAPPY BIRD ----
