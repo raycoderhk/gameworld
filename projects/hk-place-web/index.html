@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港景點導覽 | Hong Kong Attractions</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - Noto Sans HK -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --hk-midnight: #0a1628;
+            --hk-deep-blue: #0d2137;
+            --hk-accent: #1a4a7a;
+            --hk-glow: #2196F3;
+            --hk-gold: #FFD700;
+        }
+
+        * {
+            font-family: 'Noto Sans HK', sans-serif;
+        }
+
+        body {
+            background-color: var(--hk-midnight);
+            color: #e0e6ed;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 70vh;
+            background: linear-gradient(135deg, var(--hk-midnight) 0%, var(--hk-deep-blue) 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=1920&q=80') center/cover;
+            opacity: 0.3;
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, var(--hk-glow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(33, 150, 243, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: #94a3b8;
+        }
+
+        .badge-hk {
+            background: linear-gradient(135deg, var(--hk-glow), var(--hk-accent));
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Attraction Cards */
+        .attraction-card {
+            background: linear-gradient(145deg, var(--hk-deep-blue), var(--hk-midnight));
+            border: 1px solid rgba(33, 150, 243, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(33, 150, 243, 0.2);
+            border-color: var(--hk-glow);
+        }
+
+        .card-img-wrapper {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .attraction-card:hover .card-img-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(10, 22, 40, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--hk-glow);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .card-footer-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rating {
+            color: var(--hk-gold);
+            font-weight: 500;
+        }
+
+        .btn-hk {
+            background: linear-gradient(135deg, var(--hk-glow), var(--hk-accent));
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-hk:hover {
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+        }
+
+        .title-decoration {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--hk-glow), var(--hk-gold));
+            border-radius: 2px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--hk-deep-blue);
+            padding: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--hk-glow), var(--hk-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--hk-midnight);
+            border-top: 1px solid rgba(33, 150, 243, 0.2);
+            padding: 2rem 0;
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .footer-text a {
+            color: var(--hk-glow);
+            text-decoration: none;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--hk-glow), var(--hk-accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 50vh;
+            }
+            
+            .card-img-wrapper {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(10, 22, 40, 0.95); backdrop-filter: blur(10px);">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-geo-alt-fill text-info me-2"></i>香港景點
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#attractions">景點</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">關於</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center text-lg-start">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <span class="badge badge-hk mb-3">
+                        <i class="bi bi-stars me-1"></i>探索香港
+                    </span>
+                    <h1 class="hero-title mb-3">香港景點導覽</h1>
+                    <p class="hero-subtitle mb-4">
+                        從維多利亞港的璀璨夜景，到太平山頂的壯闊景觀，<br>
+                        探索香港最令人難忘的旅遊勝地
+                    </p>
+                    <a href="#attractions" class="btn btn-hk btn-lg">
+                        <i class="bi bi-compass me-2"></i>開始探索
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">700+</div>
+                        <div class="stat-label">景點數量</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">18區</div>
+                        <div class="stat-label">行政區域</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">5000k+</div>
+                        <div class="stat-label">年均旅客</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">城市活力</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attractions Section -->
+    <section id="attractions" class="py-5" style="background: var(--hk-midnight);">
+        <div class="container py-5">
+            <h2 class="section-title">精選景點</h2>
+            <div class="title-decoration"></div>
+            <p class="section-subtitle">發掘香港最具代表性的旅遊勝地</p>
+            
+            <div class="row g-4">
+                <!-- Victoria Harbour -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="attraction-card">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=800&q=80" 
+                                 alt="維多利亞港" loading="lazy">
+                            <span class="card-badge">
+                                <i class="bi bi-star-fill text-warning me-1"></i>4.9
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="bi bi-water text-info me-2"></i>維多利亞港
+                            </h3>
+                            <p class="card-text">
+                                世界知名的天然港口，每晚八點的「幻彩詠香江」鐳射燈光表演，
+                                配合兩岸摩天大樓的絢麗夜景，構成香港標誌性的都市景觀。
+                            </p>
+                            <div class="card-footer-custom">
+                                <span class="rating">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>尖沙咀 / 灣仔
+                                </span>
+                                <a href="#" class="btn btn-hk btn-sm">詳情</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Victoria Peak -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="attraction-card">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&q=80" 
+                                 alt="太平山頂" loading="lazy">
+                            <span class="card-badge">
+                                <i class="bi bi-star-fill text-warning me-1"></i>4.8
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="bi bi-mountain text-info me-2"></i>太平山頂
+                            </h3>
+                            <p class="card-text">
+                                海拔552米的香港最高峰，乘坐山頂纜車抵達後，可360度俯瞰
+                                維多利亞港及整個港島的壯闊全景，夜景尤其震撼人心。
+                            </p>
+                            <div class="card-footer-custom">
+                                <span class="rating">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>中西區
+                                </span>
+                                <a href="#" class="btn btn-hk btn-sm">詳情</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mong Kok -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="attraction-card">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1506970845246-18f21d533b20?w=800&q=80" 
+                                 alt="旺角街景" loading="lazy">
+                            <span class="card-badge">
+                                <i class="bi bi-star-fill text-warning me-1"></i>4.7
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="bi bi-shop text-info me-2"></i>旺角街景
+                            </h3>
+                            <p class="card-text">
+                                香港最繁華的購物及美食區域，從女人街的地道攤檔，
+                                到西洋菜街的電子產品，再到廟街的夜市風情，展現最純粹的香港庶民生活。
+                            </p>
+                            <div class="card-footer-custom">
+                                <span class="rating">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>油尖旺區
+                                </span>
+                                <a href="#" class="btn btn-hk btn-sm">詳情</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5" style="background: var(--hk-deep-blue);">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="section-title text-lg-start">關於香港</h2>
+                    <div class="title-decoration ms-lg-0"></div>
+                    <p class="text-white-50 lh-lg">
+                        香港是全球知名的金融中心，同時也是旅遊勝地。這裡薘萃中西文化，
+                        既有現代化的摩天大樓，也有傳統的廟宇和街市。香港人一向以勤奮聞名，
+                        「獅子山下」精神代表著香港人不屈不撓的生命力。
+                    </p>
+                    <p class="text-white-50 lh-lg">
+                        無論你是第一次來港，還是想要發掘更深度的香港故事，
+                        這個網站都會是你的最佳起點。
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1590735213920-68192a487bc2?w=400&q=80" 
+                                 alt="香港夜景" class="img-fluid rounded-3">
+                        </div>
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1558431382-f12e866a069d?w=400&q=80" 
+                                 alt="香港電車" class="img-fluid rounded-3">
+                        </div>
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1534540328408-c0fc3c1b902e?w=400&q=80" 
+                                 alt="香港美食" class="img-fluid rounded-3">
+                        </div>
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?w=400&q=80" 
+                                 alt="香港山景" class="img-fluid rounded-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="footer-text mb-0">
+                        <i class="bi bi-geo-alt-fill text-info me-2"></i>
+                        香港景點導覽 | 用 ❤️ 打造
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="footer-text mb-0">
+                        Powered by <a href="#">OpenClaw</a> + Discord AI Assistant
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to top -->
+    <a href="#" class="scroll-top" id="scrollTop">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Scroll to top button visibility
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.attraction-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+
+        // Typing effect for hero subtitle
+        const typingText = document.querySelector('.hero-subtitle');
+        if (typingText) {
+            const originalHTML = typingText.innerHTML;
+            typingText.innerHTML = '';
+            let i = 0;
+            function typeWriter() {
+                if (i < originalHTML.length) {
+                    typingText.innerHTML += originalHTML.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 20);
+                }
+            }
+            // Start typing after a short delay
+            setTimeout(typeWriter, 800);
+        }
+
+        console.log('🌃 香港景點導覽 - 載入完成！');
+    </script>
+</body>
+</html>
