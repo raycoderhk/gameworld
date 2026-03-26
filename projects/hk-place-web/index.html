@@ -273,6 +273,23 @@
                 height: 180px;
             }
         }
+
+        /* GameWorld Cards */
+        .game-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.5) !important;
+        }
+        .game-icon {
+            transition: transform 0.3s ease;
+        }
+        .game-card:hover .game-icon {
+            transform: scale(1.2);
+        }
     </style>
 </head>
 <body>
@@ -289,6 +306,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#attractions">景點</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">AI 新聞</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gameworld">🎮 GameWorld</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">關於</a></li>
                 </ul>
             </div>
@@ -443,6 +462,53 @@
         </div>
     </section>
 
+    <!-- AI News Section -->
+    <section id="news" class="py-5" style="background: var(--hk-deep-blue);">
+        <div class="container py-5">
+            <h2 class="section-title">🤖 AI 新聞</h2>
+            <div class="title-decoration"></div>
+            <p class="section-subtitle">由 OpenClaw AI 助手自動更新</p>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-8">
+                    <div class="attraction-card p-4">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="news-icon-wrapper">
+                                <i class="bi bi-newspaper text-danger" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h3 class="card-title mb-0" style="font-size: 1.2rem;">
+                                        伊朗威脅摧毀海灣國家海水化淡設施
+                                    </h3>
+                                    <span class="badge bg-danger ms-2" style="font-size: 0.7rem; white-space: nowrap;">
+                                        2026-03-23
+                                    </span>
+                                </div>
+                                <p class="card-text mb-3" style="font-size: 0.95rem;">
+                                    伊朗警告將對海灣國家的海水化淡廠發動「不可逆轉的破壞」，以回應美國威脅攻擊伊朗電網。
+                                    科威特約90%用水依賴海水化淡，沙特阿拉伯約70%，這些設施一旦受損，
+                                    主要城市可能在數天內斷水。此舉被視為對民用基礎設施的「相互保證毀滅」。
+                                </p>
+                                <div class="card-footer-custom border-0 pt-0 mt-2">
+                                    <span class="text-muted" style="font-size: 0.85rem;">
+                                        <i class="bi bi-shield-exclamation text-warning me-1"></i>
+                                        地緣政治局勢緊張
+                                    </span>
+                                    <a href="https://www.theguardian.com/world/2026/mar/23/iran-threat-to-destroy-water-facilities-gulf" 
+                                       target="_blank" 
+                                       class="btn btn-hk btn-sm">
+                                        <i class="bi bi-box-arrow-up-right me-1"></i>閱讀全文
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
     <section id="about" class="py-5" style="background: var(--hk-deep-blue);">
         <div class="container py-5">
@@ -483,6 +549,103 @@
             </div>
         </div>
     </section>
+
+    <!-- GameWorld Section -->
+    <section id="gameworld" class="py-5" style="background: linear-gradient(180deg, var(--hk-deep-blue) 0%, #1a0a28 100%);">
+        <div class="container">
+            <h2 class="section-title">🎮 GameWorld</h2>
+            <p class="section-subtitle">休閒小遊戲，放鬆一下</p>
+            
+            <div class="row g-4">
+                <!-- Flappy Bird Clone -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">🐦</div>
+                            <h5 class="card-title">Flappy HK</h5>
+                            <p class="card-text text-muted small">控制小鳥穿過障礙，飛越維多利亞港</p>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('flappy')">開始遊戲</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Snake Game -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">🐍</div>
+                            <h5 class="card-title">貪食蛇</h5>
+                            <p class="card-text text-muted small">經典貪食蛇遊戲，吃掉所有食物</p>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('snake')">開始遊戲</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Game -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">🧠</div>
+                            <h5 class="card-title">記憶大師</h5>
+                            <p class="card-text text-muted small">翻轉卡片，測試你的記憶力</p>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('memory')">開始遊戲</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Breakout -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">🏓</div>
+                            <h5 class="card-title">打磚塊</h5>
+                            <p class="card-text text-muted small">反彈球打破所有磚塊</p>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('breakout')">開始遊戲</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 2048 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">🔢</div>
+                            <h5 class="card-title">2048</h5>
+                            <p class="card-text text-muted small">經典 2048 滑塊拼圖遊戲</p>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('2048')">開始遊戲</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tic Tac Toe -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 game-card" style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="card-body text-center">
+                            <div class="game-icon mb-3" style="font-size: 3rem;">⭕</div>
+                            <h5 class="card-title">圈圈叉叉</h5>
+                            <p class="card-text text-muted small">與 AI 對戰三子棋</p>
+                            <button class="btn btn-hk btn-sm" onclick="launchGame('tictactoe')">開始遊戲</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Modal -->
+    <div class="modal fade" id="gameModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background: var(--hk-midnight);">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="gameModalTitle">遊戲</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0" id="gameContainer" style="min-height: 400px; background: #0a0a0a;">
+                    <!-- Game will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -576,6 +739,452 @@
         }
 
         console.log('🌃 香港景點導覽 - 載入完成！');
+
+        // ==================== GAMEWORLD ====================
+        const gameModal = new bootstrap.Modal(document.getElementById('gameModal'));
+        let currentGame = null;
+
+        function launchGame(gameType) {
+            document.getElementById('gameModalTitle').textContent = {
+                'flappy': '🐦 Flappy HK',
+                'snake': '🐍 貪食蛇',
+                'memory': '🧠 記憶大師',
+                'breakout': '🏓 打磚塊',
+                '2048': '🔢 2048',
+                'tictactoe': '⭕ 圈圈叉叉'
+            }[gameType] || '遊戲';
+            
+            const container = document.getElementById('gameContainer');
+            container.innerHTML = '';
+            
+            switch(gameType) {
+                case 'flappy': initFlappyBird(container); break;
+                case 'snake': initSnake(container); break;
+                case 'memory': initMemory(container); break;
+                case 'breakout': initBreakout(container); break;
+                case '2048': init2048(container); break;
+                case 'tictactoe': initTicTacToe(container); break;
+            }
+            
+            gameModal.show();
+        }
+
+        // ---- FLAPPY BIRD ----
+        function initFlappyBird(container) {
+            container.innerHTML = `<canvas id="flappyCanvas" width="400" height="500" style="display:block;margin:0 auto;"></canvas>`;
+            const canvas = document.getElementById('flappyCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            let bird = { x: 80, y: 250, vy: 0, gravity: 0.5, jump: -8, radius: 15 };
+            let pipes = [], score = 0, gameOver = false, running = true;
+            
+            function spawnPipe() {
+                const gap = 120 + Math.random() * 40;
+                const height = 100 + Math.random() * 150;
+                pipes.push({ x: 400, top: height, bottom: 400 - gap, passed: false });
+            }
+            
+            function draw() {
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, 400, 500);
+                
+                // Draw pipes
+                pipes.forEach(p => {
+                    ctx.fillStyle = '#22c55e';
+                    ctx.fillRect(p.x, 0, 50, p.top);
+                    ctx.fillRect(p.x, p.bottom, 50, 500 - p.bottom);
+                });
+                
+                // Draw bird
+                ctx.fillStyle = '#fbbf24';
+                ctx.beginPath();
+                ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw score
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 30px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(score, 200, 50);
+                
+                if (gameOver) {
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    ctx.fillRect(0, 0, 400, 500);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 24px sans-serif';
+                    ctx.fillText('遊戲結束!', 200, 230);
+                    ctx.font = '18px sans-serif';
+                    ctx.fillText('分數: ' + score, 200, 265);
+                    ctx.fillText('點擊重新開始', 200, 300);
+                }
+            }
+            
+            function update() {
+                if (gameOver) return;
+                bird.vy += bird.gravity;
+                bird.y += bird.vy;
+                if (bird.y > 480 || bird.y < 0) gameOver = true;
+                
+                pipes.forEach(p => {
+                    p.x -= 2;
+                    if (p.x < -50) pipes.shift();
+                    if (!p.passed && p.x + 50 < bird.x) {
+                        p.passed = true;
+                        score++;
+                    }
+                    if (bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + 50) {
+                        if (bird.y - bird.radius < p.top || bird.y + bird.radius > p.bottom) {
+                            gameOver = true;
+                        }
+                    }
+                });
+            }
+            
+            function loop() {
+                if (!running) return;
+                update();
+                draw();
+                if (!gameOver) requestAnimationFrame(loop);
+            }
+            
+            setInterval(() => { if (!gameOver) spawnPipe(); }, 2000);
+            loop();
+            
+            canvas.onclick = () => {
+                if (gameOver) {
+                    pipes = []; bird.y = 250; bird.vy = 0; score = 0; gameOver = false;
+                    loop();
+                } else {
+                    bird.vy = bird.jump;
+                }
+            };
+        }
+
+        // ---- SNAKE ----
+        function initSnake(container) {
+            container.innerHTML = `<canvas id="snakeCanvas" width="320" height="320" style="display:block;margin:0 auto;"></canvas>
+                <div style="text-align:center;color:white;padding:10px;">分數: <span id="snakeScore">0</span></div>`;
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            const gridSize = 16;
+            const tileCount = 20;
+            
+            let snake = [{x: 10, y: 10}], food = {x: 15, y: 15}, dx = 0, dy = 0, score = 0, gameOver = false;
+            
+            function draw() {
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, 320, 320);
+                
+                // Draw food
+                ctx.fillStyle = '#ef4444';
+                ctx.fillRect(food.x * gridSize + 1, food.y * gridSize + 1, gridSize - 2, gridSize - 2);
+                
+                // Draw snake
+                ctx.fillStyle = '#22c55e';
+                snake.forEach((s, i) => {
+                    ctx.fillStyle = i === 0 ? '#4ade80' : '#22c55e';
+                    ctx.fillRect(s.x * gridSize + 1, s.y * gridSize + 1, gridSize - 2, gridSize - 2);
+                });
+                
+                document.getElementById('snakeScore').textContent = score;
+            }
+            
+            function update() {
+                if (gameOver) return;
+                const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+                
+                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                    gameOver = true; return;
+                }
+                
+                if (snake.some(s => s.x === head.x && s.y === head.y)) {
+                    gameOver = true; return;
+                }
+                
+                snake.unshift(head);
+                
+                if (head.x === food.x && head.y === food.y) {
+                    score++;
+                    food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+                } else {
+                    snake.pop();
+                }
+            }
+            
+            function loop() {
+                update();
+                draw();
+                if (!gameOver) setTimeout(loop, 100);
+                else {
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    ctx.fillRect(0, 0, 320, 320);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 20px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('遊戲結束! 分數: ' + score, 160, 160);
+                }
+            }
+            
+            document.onkeydown = e => {
+                if (e.key === 'ArrowUp' && dy === 0) { dx = 0; dy = -1; }
+                else if (e.key === 'ArrowDown' && dy === 0) { dx = 0; dy = 1; }
+                else if (e.key === 'ArrowLeft' && dx === 0) { dx = -1; dy = 0; }
+                else if (e.key === 'ArrowRight' && dx === 0) { dx = 1; dy = 0; }
+            };
+            
+            loop();
+        }
+
+        // ---- MEMORY ----
+        function initMemory(container) {
+            const emojis = ['🎮', '🎯', '🎨', '🎭', '🎪', '🎢', '🎡', '🎠'];
+            let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            let flipped = [], matched = 0, moves = 0;
+            
+            container.innerHTML = `<div id="memoryBoard" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:20px auto;padding:20px;"></div>
+                <div style="text-align:center;color:white;">用時: <span id="memoryMoves">0</span> 步</div>`;
+            
+            const board = document.getElementById('memoryBoard');
+            
+            function render() {
+                board.innerHTML = '';
+                cards.forEach((emoji, i) => {
+                    const isFlipped = flipped.includes(i) || matched.includes(i);
+                    board.innerHTML += `<div onclick="flipCard(${i})" style="width:70px;height:70px;background:${isFlipped ? '#3b82f6' : '#1a1a2e'};border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;border:2px solid ${isFlipped ? '#3b82f6' : 'transparent'};">${isFlipped ? emoji : '?'}</div>`;
+                });
+                document.getElementById('memoryMoves').textContent = moves;
+            }
+            
+            window.flipCard = (i) => {
+                if (flipped.length === 2 || flipped.includes(i) || matched.includes(i)) return;
+                flipped.push(i);
+                render();
+                
+                if (flipped.length === 2) {
+                    moves++;
+                    if (cards[flipped[0]] === cards[flipped[1]]) {
+                        matched.push(...flipped);
+                        flipped = [];
+                        if (matched.length === cards.length) {
+                            setTimeout(() => alert('恭喜通關！用了 ' + moves + ' 步'), 100);
+                        }
+                    } else {
+                        setTimeout(() => { flipped = []; render(); }, 800);
+                    }
+                    render();
+                }
+            };
+            
+            render();
+        }
+
+        // ---- BREAKOUT ----
+        function initBreakout(container) {
+            container.innerHTML = `<canvas id="breakoutCanvas" width="400" height="400" style="display:block;margin:0 auto;"></canvas>`;
+            const canvas = document.getElementById('breakoutCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            let paddle = { x: 150, y: 370, w: 80, h: 10 };
+            let ball = { x: 200, y: 350, vx: 3, vy: -3, r: 8 };
+            let bricks = [];
+            
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 6; col++) {
+                    bricks.push({ x: col * 65 + 10, y: row * 25 + 30, w: 60, h: 20, color: ['#ef4444','#f97316','#eab308','#22c55e','#3b82f6'][row] });
+                }
+            }
+            
+            let score = 0, gameOver = false;
+            
+            function draw() {
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, 400, 400);
+                
+                bricks.forEach(b => { ctx.fillStyle = b.color; ctx.fillRect(b.x, b.y, b.w, b.h); });
+                
+                ctx.fillStyle = '#fbbf24';
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#3b82f6';
+                ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+                
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('分數: ' + score, 10, 390);
+            }
+            
+            function update() {
+                if (gameOver) return;
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+                
+                if (ball.x < ball.r || ball.x > 400 - ball.r) ball.vx *= -1;
+                if (ball.y < ball.r) ball.vy *= -1;
+                if (ball.y > 400) { gameOver = true; return; }
+                
+                if (ball.y + ball.r > paddle.y && ball.x > paddle.x && ball.x < paddle.x + paddle.w) {
+                    ball.vy = -3;
+                }
+                
+                bricks = bricks.filter(b => {
+                    if (ball.x > b.x && ball.x < b.x + b.w && ball.y > b.y && ball.y < b.y + b.h) {
+                        ball.vy *= -1;
+                        score++;
+                        return false;
+                    }
+                    return true;
+                });
+                
+                if (bricks.length === 0) { gameOver = true; alert('你赢了！分數: ' + score); }
+            }
+            
+            function loop() {
+                update();
+                draw();
+                if (!gameOver) requestAnimationFrame(loop);
+                else {
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                    ctx.fillRect(0, 0, 400, 400);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 20px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('遊戲結束! 分數: ' + score, 200, 200);
+                }
+            }
+            
+            document.onkeydown = e => {
+                if (e.key === 'ArrowLeft') paddle.x = Math.max(0, paddle.x - 20);
+                if (e.key === 'ArrowRight') paddle.x = Math.min(400 - paddle.w, paddle.x + 20);
+            };
+            
+            loop();
+        }
+
+        // ---- 2048 ----
+        function init2048(container) {
+            container.innerHTML = `<div id="2048Board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;max-width:320px;margin:20px auto;padding:10px;background:#1a1a2e;border-radius:10px;"></div>
+                <div style="text-align:center;color:white;margin-top:10px;">分數: <span id="score2048">0</span></div>`;
+            
+            const board = document.getElementById('2048Board');
+            let grid = Array(4).fill().map(() => Array(4).fill(0));
+            let score = 0;
+            
+            function addTile() {
+                let empty = [];
+                grid.forEach((r, i) => r.forEach((c, j) => { if (c === 0) empty.push([i, j]); }));
+                if (empty.length) {
+                    const [i, j] = empty[Math.floor(Math.random() * empty.length)];
+                    grid[i][j] = Math.random() < 0.9 ? 2 : 4;
+                }
+            }
+            
+            function render() {
+                board.innerHTML = '';
+                const colors = { 0: '#2d2d44', 2: '#eee', 4: '#f2b179', 8: '#f59563', 16: '#f67c5f', 32: '#f65e3b', 64: '#edcf72', 128: '#edcc61', 256: '#edc850', 512: '#edc53f', 1024: '#edc22e', 2048: '#ed9d30' };
+                grid.forEach(row => row.forEach(val => {
+                    const div = document.createElement('div');
+                    div.style.cssText = `width:70px;height:70px;background:${colors[val] || '#1a1a2e'};border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:${val > 999 ? '1rem' : '1.5rem'};font-weight:bold;color:${val > 4 ? 'white' : '#1a1a2e'};`;
+                    div.textContent = val || '';
+                    board.appendChild(div);
+                }));
+                document.getElementById('score2048').textContent = score;
+            }
+            
+            function slide(row) {
+                row = row.filter(x => x);
+                while (row.length < 4) row.push(0);
+                for (let i = 0; i < 3; i++) {
+                    if (row[i] === row[i + 1]) { row[i] *= 2; score += row[i]; row.splice(i + 1, 1); row.push(0); }
+                }
+                return row;
+            }
+            
+            function move(direction) {
+                let moved = false;
+                if (direction === 'left') {
+                    grid = grid.map(row => { const n = slide([...row]); if (n.join() !== row.join()) moved = true; return n; });
+                } else if (direction === 'right') {
+                    grid = grid.map(row => { const n = slide([...row].reverse()).reverse(); if (n.join() !== row.join()) moved = true; return n; });
+                } else if (direction === 'up') {
+                    for (let j = 0; j < 4; j++) {
+                        let col = [grid[0][j], grid[1][j], grid[2][j], grid[3][j]];
+                        col = slide(col);
+                        for (let i = 0; i < 4; i++) { if (grid[i][j] !== col[i]) moved = true; grid[i][j] = col[i]; }
+                    }
+                } else if (direction === 'down') {
+                    for (let j = 0; j < 4; j++) {
+                        let col = [grid[3][j], grid[2][j], grid[1][j], grid[0][j]];
+                        col = slide(col);
+                        for (let i = 0; i < 4; i++) { if (grid[i][j] !== col[3-i]) moved = true; grid[i][j] = col[3-i]; }
+                    }
+                }
+                if (moved) { addTile(); render(); }
+            }
+            
+            document.onkeydown = e => {
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                    move({ ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' }[e.key]);
+                }
+            };
+            
+            addTile(); addTile(); render();
+        }
+
+        // ---- TIC TAC TOE ----
+        function initTicTacToe(container) {
+            container.innerHTML = `<div id="tttBoard" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:300px;margin:20px auto;"></div>
+                <div id="tttStatus" style="text-align:center;color:white;margin-top:15px;font-size:1.2rem;">你的回合 (❌)</div>
+                <div style="text-align:center;margin-top:10px;"><button onclick="resetTicTacToe()" class="btn btn-hk btn-sm">重新開始</button></div>`;
+            
+            let board = Array(9).fill(''), player = 'X', gameOver = false;
+            
+            function checkWinner(b) {
+                const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+                for (let [a,c,d] of lines) {
+                    if (b[a] && b[a] === b[c] && b[a] === b[d]) return b[a];
+                }
+                return b.includes('') ? null : 'tie';
+            }
+            
+            function render() {
+                const boardEl = document.getElementById('tttBoard');
+                boardEl.innerHTML = '';
+                board.forEach((val, i) => {
+                    const cell = document.createElement('div');
+                    cell.style.cssText = `width:90px;height:90px;background:#1a1a2e;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;cursor:pointer;`;
+                    cell.textContent = val === 'X' ? '❌' : val === 'O' ? '⭕' : '';
+                    cell.onclick = () => {
+                        if (board[i] || gameOver || player === 'O') return;
+                        board[i] = 'X';
+                        const winner = checkWinner(board);
+                        if (winner) { gameOver = true; document.getElementById('tttStatus').textContent = winner === 'tie' ? '平手!' : '你贏了! 🎉'; return; }
+                        player = 'O';
+                        document.getElementById('tttStatus').textContent = 'AI 思考中...';
+                        setTimeout(() => {
+                            // Simple AI
+                            let empty = board.map((v, i) => v ? -1 : i).filter(i => i >= 0);
+                            if (empty.length) {
+                                board[empty[Math.floor(Math.random() * empty.length)]] = 'O';
+                                const winner = checkWinner(board);
+                                if (winner) { gameOver = true; document.getElementById('tttStatus').textContent = winner === 'tie' ? '平手!' : 'AI 贏了! 🤖'; return; }
+                                player = 'X';
+                                document.getElementById('tttStatus').textContent = '你的回合 (❌)';
+                            }
+                            render();
+                        }, 500);
+                        render();
+                    };
+                    boardEl.appendChild(cell);
+                });
+            }
+            
+            window.resetTicTacToe = () => { board = Array(9).fill(''); player = 'X'; gameOver = false; document.getElementById('tttStatus').textContent = '你的回合 (❌)'; render(); };
+            render();
+        }
     </script>
 </body>
 </html>
