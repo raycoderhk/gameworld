@@ -1,0 +1,327 @@
+/* GeoBite - Intelligence Briefing Theme */
+/* Dark background with blue accents */
+
+:root {
+  --dark-bg: #0f172a;
+  --darker-bg: #0a0f1c;
+  --card-bg: #1e293b;
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --border-color: #334155;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  font-family: 'Noto Sans HK', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Header styling */
+.header {
+  background-color: var(--darker-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  color: var(--accent-blue) !important;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  color: var(--text-secondary) !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-blue) !important;
+}
+
+/* Main content styling */
+.main-content {
+  min-height: calc(100vh - 120px);
+  padding: 2rem 0;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+  padding: 4rem 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+.cta-button {
+  background-color: var(--accent-blue);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.cta-button:hover {
+  background-color: var(--accent-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  text-decoration: none;
+  color: white;
+}
+
+/* Card styling */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  background-color: var(--darker-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.25rem;
+  font-weight: bold;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* Quiz styling */
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.question-card {
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--accent-blue);
+}
+
+.answer-option {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background-color: var(--darker-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.answer-option:hover {
+  background-color: #334155;
+  border-color: var(--accent-blue);
+}
+
+.answer-option.selected {
+  background-color: #1e3a8a;
+  border-color: var(--accent-blue);
+  color: white;
+}
+
+.result-card {
+  text-align: center;
+  padding: 2rem;
+}
+
+.progress {
+  height: 10px;
+  background-color: var(--darker-bg);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  background-color: var(--accent-blue);
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+/* Footer styling */
+.footer {
+  background-color: var(--darker-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 2rem 0;
+  margin-top: 2rem;
+}
+
+/* Daily lessons styling */
+.daily-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.lesson-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-card .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-date {
+  color: var(--accent-blue);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.lesson-excerpt {
+  color: var(--text-secondary);
+  flex-grow: 1;
+}
+
+.lesson-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.lesson-link:hover {
+  color: var(--accent-blue-hover);
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .daily-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .main-content {
+    padding: 1rem 0;
+  }
+}
+
+/* Animation for interactive elements */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Special styling for quiz results */
+.result-score {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--accent-blue);
+  margin: 1rem 0;
+}
+
+.result-message {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.share-btn {
+  padding: 8px 16px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn-facebook {
+  background-color: #3b5998;
+}
+
+.btn-twitter {
+  background-color: #1da1f2;
+}
+
+.btn-whatsapp {
+  background-color: #25d366;
+}
+
+/* Back to home button */
+.back-home {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-home:hover {
+  color: var(--accent-blue-hover);
+  text-decoration: underline;
+}
