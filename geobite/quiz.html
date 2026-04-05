@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoBite Quiz - 測試你的地緣政治知識</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-5">
+        <header class="mb-5 text-center">
+            <h1 class="display-4">GeoBite Quiz</h1>
+            <p class="lead">測試你對地緣政治的理解</p>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div id="quiz-container">
+                    <!-- Quiz Form -->
+                    <form id="geopolitics-quiz">
+                        <!-- Question 1 -->
+                        <div class="card mb-4 bg-secondary text-white">
+                            <div class="card-header">
+                                <h5 class="mb-0">問題 1</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">美中科技戰的核心競爭領域包括哪些？(Select all that apply)</p>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q1" value="半導體" id="q1a">
+                                    <label class="form-check-label" for="q1a">半導體 (Semiconductors)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q1" value="人工智慧" id="q1b">
+                                    <label class="form-check-label" for="q1b">人工智慧 (AI)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q1" value="量子計算" id="q1c">
+                                    <label class="form-check-label" for="q1c">量子計算 (Quantum Computing)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q1" value="生物技術" id="q1d">
+                                    <label class="form-check-label" for="q1d">生物技術 (Biotechnology)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="card mb-4 bg-secondary text-white">
+                            <div class="card-header">
+                                <h5 class="mb-0">問題 2</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">中東水危機的主要焦點是什麼？</p>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q2" value="石油與水資源競爭" id="q2a">
+                                    <label class="form-check-label" for="q2a">石油與水資源競爭</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q2" value="伊朗與海灣國家的對抗" id="q2b">
+                                    <label class="form-check-label" for="q2b">伊朗與海灣國家的對抗</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q2" value="氣候變化影響" id="q2c">
+                                    <label class="form-check-label" for="q2c">氣候變化影響</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q2" value="跨國河流爭議" id="q2d">
+                                    <label class="form-check-label" for="q2d">跨國河流爭議</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="card mb-4 bg-secondary text-white">
+                            <div class="card-header">
+                                <h5 class="mb-0">問題 3</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">AI如何影響全球權力平衡？(Select all that apply)</p>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q3" value="軍事應用" id="q3a">
+                                    <label class="form-check-label" for="q3a">軍事應用 (Military Applications)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q3" value="經濟競爭" id="q3b">
+                                    <label class="form-check-label" for="q3b">經濟競爭 (Economic Competition)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q3" value="監控能力" id="q3c">
+                                    <label class="form-check-label" for="q3c">監控能力 (Surveillance Capabilities)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q3" value="科技主導權" id="q3d">
+                                    <label class="form-check-label" for="q3d">科技主導權 (Technology Dominance)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="card mb-4 bg-secondary text-white">
+                            <div class="card-header">
+                                <h5 class="mb-0">問題 4</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">中國製造業在全球的地位體現在：</p>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q4" value="世界工廠角色" id="q4a">
+                                    <label class="form-check-label" for="q4a">世界工廠角色</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q4" value="高端製造轉型" id="q4b">
+                                    <label class="form-check-label" for="q4b">高端製造轉型</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q4" value="供應鏈核心" id="q4c">
+                                    <label class="form-check-label" for="q4c">供應鏈核心</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="q4" value="以上皆是" id="q4d">
+                                    <label class="form-check-label" for="q4d">以上皆是</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="card mb-4 bg-secondary text-white">
+                            <div class="card-header">
+                                <h5 class="mb-0">問題 5</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">歐盟面對全球挑戰的戰略重點包括：(Select all that apply)</p>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q5" value="戰略自主" id="q5a">
+                                    <label class="form-check-label" for="q5a">戰略自主 (Strategic Autonomy)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q5" value="綠色轉型" id="q5b">
+                                    <label class="form-check-label" for="q5b">綠色轉型 (Green Transition)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q5" value="數位主權" id="q5c">
+                                    <label class="form-check-label" for="q5c">數位主權 (Digital Sovereignty)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="q5" value="跨大西洋關係" id="q5d">
+                                    <label class="form-check-label" for="q5d">跨大西洋關係 (Transatlantic Relations)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">提交答案</button>
+                    </form>
+
+                    <!-- Results Section (Hidden by default) -->
+                    <div id="results-section" class="mt-5" style="display: none;">
+                        <div class="card bg-success text-white">
+                            <div class="card-header">
+                                <h3 class="mb-0">結果</h3>
+                            </div>
+                            <div class="card-body">
+                                <h4 id="result-title" class="card-title"></h4>
+                                <p id="result-description" class="card-text"></p>
+                                <div id="detailed-results"></div>
+                                <a href="index.html" class="btn btn-outline-light mt-3">回到首頁</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('geopolitics-quiz').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Calculate score
+            let score = 0;
+            const totalQuestions = 5;
+            
+            // Question 1: Multiple answers (semiconductor, AI, quantum, biotech all correct)
+            const q1Answers = ['半導體', '人工智慧', '量子計算', '生物技術'];
+            const userQ1 = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(cb => cb.value);
+            const q1Correct = q1Answers.every(ans => userQ1.includes(ans)) && userQ1.length === q1Answers.length;
+            if(q1Correct) score++;
+            
+            // Question 2: Correct answer is "跨國河流爭議"
+            const q2Correct = document.querySelector('input[name="q2"]:checked').value === '跨國河流爭議';
+            if(q2Correct) score++;
+            
+            // Question 3: Multiple answers (all options correct)
+            const q3Answers = ['軍事應用', '經濟競爭', '監控能力', '科技主導權'];
+            const userQ3 = Array.from(document.querySelectorAll('input[name="q3"]:checked')).map(cb => cb.value);
+            const q3Correct = q3Answers.every(ans => userQ3.includes(ans)) && userQ3.length === q3Answers.length;
+            if(q3Correct) score++;
+            
+            // Question 4: Correct answer is "以上皆是"
+            const q4Correct = document.querySelector('input[name="q4"]:checked').value === '以上皆是';
+            if(q4Correct) score++;
+            
+            // Question 5: Multiple answers (all options correct)
+            const q5Answers = ['戰略自主', '綠色轉型', '數位主權', '跨大西洋關係'];
+            const userQ5 = Array.from(document.querySelectorAll('input[name="q5"]:checked')).map(cb => cb.value);
+            const q5Correct = q5Answers.every(ans => userQ5.includes(ans)) && userQ5.length === q5Answers.length;
+            if(q5Correct) score++;
+            
+            // Display results
+            displayResults(score, totalQuestions);
+        });
+        
+        function displayResults(score, total) {
+            const percentage = Math.round((score / total) * 100);
+            const resultsSection = document.getElementById('results-section');
+            const resultTitle = document.getElementById('result-title');
+            const resultDescription = document.getElementById('result-description');
+            const detailedResults = document.getElementById('detailed-results');
+            
+            // Set result title based on score
+            if(percentage >= 80) {
+                resultTitle.textContent = `優秀！ ${score}/${total} (${percentage}%)`;
+                resultDescription.textContent = '你對地緣政治有深入的了解！';
+            } else if(percentage >= 60) {
+                resultTitle.textContent = `良好！ ${score}/${total} (${percentage}%)`;
+                resultDescription.textContent = '你有一定地緣政治基礎，繼續學習可以更上一層樓。';
+            } else if(percentage >= 40) {
+                resultTitle.textContent = `還需努力！ ${score}/${total} (${percentage}%)`;
+                resultDescription.textContent = '你對地緣政治有一些了解，但還有很大的提升空間。';
+            } else {
+                resultTitle.textContent = `新手入門！ ${score}/${total} (${percentage}%)`;
+                resultDescription.textContent = '地緣政治是一個複雜的領域，每天學習一點點，積少成多。';
+            }
+            
+            // Show detailed results
+            detailedResults.innerHTML = `
+                <div class="alert alert-info mt-3">
+                    <h5>學習建議：</h5>
+                    <ul>
+                        <li>每天閱讀地緣政治新聞，關注全球動態</li>
+                        <li>學習 GeoBite 每日專題，深入了解各個話題</li>
+                        <li>與他人討論國際事件，多角度思考問題</li>
+                    </ul>
+                </div>
+            `;
+            
+            // Show results section
+            resultsSection.style.display = 'block';
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

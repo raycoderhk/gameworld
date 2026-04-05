@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Cellular Automata Explorer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #eee;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: crosshair;
+            background: #000;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: #00d4ff; color: #000; }
+        .btn-primary:hover { background: #00b4d8; transform: translateY(-2px); }
+        .btn-secondary { background: #333; color: #fff; }
+        .btn-secondary:hover { background: #444; }
+        .btn-danger { background: #e63946; color: #fff; }
+        .btn-danger:hover { background: #d62839; }
+        .btn-success { background: #2d6a4f; color: #fff; }
+        .btn-success:hover { background: #40916c; }
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .presets button {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            background: #2a2a4a;
+            color: #aaa;
+        }
+        .presets button:hover { background: #3a3a5a; color: #fff; }
+        .info {
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .info h3 { color: #00d4ff; margin-bottom: 10px; }
+        .info p { margin-bottom: 8px; line-height: 1.6; }
+        .rule-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .rule-selector label { font-weight: 600; }
+        .rule-selector input {
+            width: 80px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #1a1a2e;
+            color: #fff;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .speed-control input {
+            width: 120px;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .rule-card {
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .rule-card:hover {
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        .rule-card h4 { color: #00d4ff; font-size: 1rem; margin-bottom: 5px; }
+        .rule-card p { font-size: 0.8rem; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎮 Cellular Automata Explorer</h1>
+        <p class="subtitle">Click cells to draw, watch patterns emerge!</p>
+        
+        <canvas id="canvas" width="800" height="400"></canvas>
+        
+        <div class="stats">
+            <span>Generation: <strong id="gen">0</strong></span>
+            <span>Alive: <strong id="alive">0</strong></span>
+            <span>FPS: <strong id="fps">0</strong></span>
+        </div>
+        
+        <div class="rule-selector">
+            <label>Rule (0-255):</label>
+            <input type="number" id="ruleInput" value="30" min="0" max="255">
+            <button class="btn-secondary" onclick="applyRule()">Apply</button>
+        </div>
+        
+        <div class="speed-control">
+            <label>Speed:</label>
+            <input type="range" id="speedSlider" min="1" max="60" value="10" onchange="updateSpeed()">
+            <span id="speedVal">10</span> gen/s
+        </div>
+        
+        <div class="controls">
+            <button class="btn-success" onclick="startGame()">▶ Start</button>
+            <button class="btn-danger" onclick="stopGame()">■ Stop</button>
+            <button class="btn-secondary" onclick="stepGame()">⏭ Step</button>
+            <button class="btn-secondary" onclick="clearGame()">🗑 Clear</button>
+            <button class="btn-primary" onclick="randomize()">🎲 Random</button>
+        </div>
+        
+        <div class="presets">
+            <button onclick="loadPreset('glider')">🚀 Glider</button>
+            <button onclick="loadPreset('blinker')">💡 Blinker</button>
+            <button onclick="loadPreset('LWSS')">🦋 LWSS</button>
+            <button onclick="loadPreset('gosper')">🎰 Gosper Glider Gun</button>
+            <button onclick="loadPreset('acorn')">🌰 Acorn</button>
+            <button onclick="loadPreset('diamond')">💎 Diamond</button>
+        </div>
+        
+        <div class="info">
+            <h3>📚 What is Cellular Automata?</h3>
+            <p><strong>Elementary CA</strong> uses a 1D grid where each cell looks at its neighbors (left, self, right) to decide its next state based on a rule number (0-255).</p>
+            <p><strong>Conway's Game of Life</strong> (the classic!) uses 2D - each cell checks its 8 neighbors. Rules: Lonely = born if 3 neighbors, Survive with 2-3 neighbors, Overcrowd/starve = dies.</p>
+            <p><strong>Try different rules!</strong> Rule 30 shows chaos, Rule 110 is Turing complete, Rule 184 models traffic flow.</p>
+            
+            <h3>🎯 Quick Presets</h3>
+            <div class="rules-grid">
+                <div class="rule-card" onclick="loadGameOfLife()">
+                    <h4>🎮 Conway's Game of Life</h4>
+                    <p>The classic! B3/S23 rules. Creates gliders, oscillators, and even computers!</p>
+                </div>
+                <div class="rule-card" onclick="setRule(30)">
+                    <h4>🔴 Rule 30</h4>
+                    <p>Chaotic pattern discovered by Wolfram. Used for random number generation.</p>
+                </div>
+                <div class="rule-card" onclick="setRule(110)">
+                    <h4>🔵 Rule 110</h4>
+                    <p>Turing complete! Can theoretically simulate any computation.</p>
+                </div>
+                <div class="rule-card" onclick="setRule(184)">
+                    <h4>🚗 Rule 184</h4>
+                    <p>Models traffic flow. Watch cars move along a road!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info" style="margin-top: 15px;">
+            <h3>💻 Python Version (for learning)</h3>
+            <p>Download <code>ca_simulator.py</code> to run locally with Python!</p>
+            <button class="btn-primary" onclick="downloadPython()">📥 Download Python Code</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const CELL_SIZE = 8;
+        const COLS = Math.floor(canvas.width / CELL_SIZE);
+        const ROWS = Math.floor(canvas.height / CELL_SIZE);
+        
+        let grid = [];
+        let running = false;
+        let animationId;
+        let lastFrame = 0;
+        let frameCount = 0;
+        let fps = 0;
+        let currentMode = 'elementary';
+        let rule = 30;
+        let speed = 10;
+        
+        // Initialize grid
+        function initGrid() {
+            grid = [];
+            for (let y = 0; y < ROWS; y++) {
+                grid[y] = [];
+                for (let x = 0; x < COLS; x++) {
+                    grid[y][x] = 0;
+                }
+            }
+        }
+        
+        // Draw the grid
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (grid[y][x]) {
+                        ctx.fillStyle = currentMode === 'gameoflife' ? '#00ff88' : '#00d4ff';
+                        ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
+                    }
+                }
+            }
+            
+            // Update stats
+            let alive = 0;
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (grid[y][x]) alive++;
+                }
+            }
+            document.getElementById('alive').textContent = alive;
+        }
+        
+        // Elementary CA step
+        function elementaryStep() {
+            const newGrid = [];
+            for (let y = 0; y < ROWS; y++) {
+                newGrid[y] = [];
+                for (let x = 0; x < COLS; x++) {
+                    const left = grid[y][(x - 1 + COLS) % COLS];
+                    const center = grid[y][x];
+                    const right = grid[y][(x + 1) % COLS];
+                    const neighborhood = (left << 2) | (center << 1) | right;
+                    newGrid[y][x] = (rule >> neighborhood) & 1;
+                }
+            }
+            grid = newGrid;
+        }
+        
+        // Game of Life step
+        function gameOfLifeStep() {
+            const newGrid = [];
+            for (let y = 0; y < ROWS; y++) {
+                newGrid[y] = [];
+                for (let x = 0; x < COLS; x++) {
+                    let neighbors = 0;
+                    for (let dy = -1; dy <= 1; dy++) {
+                        for (let dx = -1; dx <= 1; dx++) {
+                            if (dx === 0 && dy === 0) continue;
+                            const ny = (y + dy + ROWS) % ROWS;
+                            const nx = (x + dx + COLS) % COLS;
+                            neighbors += grid[ny][nx];
+                        }
+                    }
+                    if (grid[y][x] === 1) {
+                        newGrid[y][x] = (neighbors === 2 || neighbors === 3) ? 1 : 0;
+                    } else {
+                        newGrid[y][x] = (neighbors === 3) ? 1 : 0;
+                    }
+                }
+            }
+            grid = newGrid;
+        }
+        
+        function step() {
+            if (currentMode === 'gameoflife') {
+                gameOfLifeStep();
+            } else {
+                elementaryStep();
+            }
+            document.getElementById('gen').textContent = parseInt(document.getElementById('gen').textContent) + 1;
+            draw();
+        }
+        
+        function gameLoop(timestamp) {
+            if (!running) return;
+            
+            frameCount++;
+            if (timestamp - lastFrame >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastFrame = timestamp;
+                document.getElementById('fps').textContent = fps;
+            }
+            
+            const interval = 1000 / speed;
+            if (timestamp - lastFrame >= interval) {
+                step();
+            }
+            
+            animationId = requestAnimationFrame(gameLoop);
+        }
+        
+        function startGame() {
+            if (running) return;
+            running = true;
+            lastFrame = performance.now();
+            animationId = requestAnimationFrame(gameLoop);
+        }
+        
+        function stopGame() {
+            running = false;
+            if (animationId) cancelAnimationFrame(animationId);
+        }
+        
+        function stepGame() {
+            stopGame();
+            step();
+        }
+        
+        function clearGame() {
+            stopGame();
+            initGrid();
+            document.getElementById('gen').textContent = '0';
+            draw();
+        }
+        
+        function randomize() {
+            stopGame();
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    grid[y][x] = Math.random() < 0.3 ? 1 : 0;
+                }
+            }
+            document.getElementById('gen').textContent = '0';
+            draw();
+        }
+        
+        function applyRule() {
+            rule = parseInt(document.getElementById('ruleInput').value) || 30;
+            currentMode = 'elementary';
+        }
+        
+        function setRule(r) {
+            rule = r;
+            document.getElementById('ruleInput').value = r;
+            currentMode = 'elementary';
+            stopGame();
+            initGrid();
+            // Set center row to single black cell
+            grid[Math.floor(ROWS/2)][Math.floor(COLS/2)] = 1;
+            draw();
+        }
+        
+        function loadGameOfLife() {
+            stopGame();
+            currentMode = 'gameoflife';
+            initGrid();
+            document.getElementById('ruleInput').value = 'GOL';
+            draw();
+        }
+        
+        function updateSpeed() {
+            speed = parseInt(document.getElementById('speedSlider').value);
+            document.getElementById('speedVal').textContent = speed;
+        }
+        
+        function loadPreset(name) {
+            stopGame();
+            initGrid();
+            document.getElementById('gen').textContent = '0';
+            
+            const cx = Math.floor(COLS / 2);
+            const cy = Math.floor(ROWS / 2);
+            
+            if (currentMode !== 'gameoflife') {
+                currentMode = 'gameoflife';
+                document.getElementById('ruleInput').value = 'GOL';
+            }
+            
+            switch(name) {
+                case 'glider':
+                    grid[cy-1][cx] = 1;
+                    grid[cy][cx+1] = 1;
+                    grid[cy+1][cx-1] = 1;
+                    grid[cy+1][cx] = 1;
+                    grid[cy+1][cx+1] = 1;
+                    break;
+                case 'blinker':
+                    grid[cy][cx-1] = 1;
+                    grid[cy][cx] = 1;
+                    grid[cy][cx+1] = 1;
+                    break;
+                case 'LWSS':
+                    // Lightweight spaceship
+                    grid[cy-1][cx-1] = 1;
+                    grid[cy-1][cx+1] = 1;
+                    grid[cy][cx-2] = 1;
+                    grid[cy][cx+2] = 1;
+                    grid[cy+1][cx-2] = 1;
+                    grid[cy+1][cx+2] = 1;
+                    grid[cy+2][cx-1] = 1;
+                    grid[cy+2][cx] = 1;
+                    break;
+                case 'gosper':
+                    // Glider gun (simplified)
+                    for (let i = 0; i < 36; i++) grid[cy][cx-17+i] = (i === 0 || i === 34) ? 1 : 0;
+                    grid[cy+1][cx-16] = 1;
+                    grid[cy+1][cx-14] = 1;
+                    grid[cy+2][cx-16] = 1;
+                    grid[cy+2][cx-15] = 1;
+                    break;
+                case 'acorn':
+                    grid[cy][cx+1] = 1;
+                    grid[cy+1][cx-1] = 1;
+                    grid[cy+1][cx] = 1;
+                    grid[cy+1][cx+3] = 1;
+                    grid[cy+1][cx+4] = 1;
+                    grid[cy+1][cx+5] = 1;
+                    grid[cy+1][cx+6] = 1;
+                    break;
+                case 'diamond':
+                    for (let i = -10; i <= 10; i++) {
+                        grid[cy+i][cx] = 1;
+                        grid[cy][cx+i] = 1;
+                    }
+                    break;
+            }
+            draw();
+        }
+        
+        function downloadPython() {
+            const code = `# Cellular Automata Simulator
+# Run: python ca_simulator.py
+
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+class CellularAutomata:
+    def __init__(self, width=100, height=100, rule=30, mode='elementary'):
+        self.width = width
+        self.height = height
+        self.rule = rule
+        self.mode = mode
+        self.grid = np.zeros((height, width), dtype=int)
+        
+    def elementary_step(self):
+        """Elementary CA: 1D with neighbors left, center, right"""
+        new_grid = np.zeros_like(self.grid)
+        for y in range(self.height):
+            for x in range(self.width):
+                left = self.grid[y, (x-1) % self.width]
+                center = self.grid[y, x]
+                right = self.grid[y, (x+1) % self.width]
+                neighborhood = (left << 2) | (center << 1) | right
+                new_grid[y, x] = (self.rule >> neighborhood) & 1
+        self.grid = new_grid
+        
+    def gol_step(self):
+        """Conway's Game of Life: B3/S23"""
+        new_grid = self.grid.copy()
+        for y in range(self.height):
+            for x in range(self.width):
+                neighbors = 0
+                for dy in [-1, 0, 1]:
+                    for dx in [-1, 0, 1]:
+                        if dx == 0 and dy == 0: continue
+                        ny, nx = (y + dy) % self.height, (x + dx) % self.width
+                        neighbors += self.grid[ny, nx]
+                if self.grid[y, x] == 1:
+                    new_grid[y, x] = 1 if neighbors in [2, 3] else 0
+                else:
+                    new_grid[y, x] = 1 if neighbors == 3 else 0
+        self.grid = new_grid
+        
+    def step(self):
+        if self.mode == 'elementary':
+            self.elementary_step()
+        else:
+            self.gol_step()
+            
+    def set_initial_pattern(self, pattern_type='random'):
+        self.grid.fill(0)
+        if pattern_type == 'random':
+            self.grid[0, :] = np.random.randint(0, 2, self.width)
+        elif pattern_type == 'single':
+            self.grid[0, self.width//2] = 1
+        elif pattern_type == 'glider':
+            cx, cy = self.width//2, self.height//2
+            self.grid[cy, cx] = 1
+            self.grid[cy-1, cx+1] = 1
+            self.grid[cy+1, cx-1] = 1
+            self.grid[cy+1, cx] = 1
+            self.grid[cy+1, cx+1] = 1
+            
+    def draw(self, ax):
+        ax.clear()
+        ax.imshow(self.grid, cmap='Blues', interpolation='nearest')
+        ax.axis('off')
+
+def main():
+    print("🎮 Cellular Automata Simulator")
+    print("1. Elementary CA (1D)")
+    print("2. Game of Life (2D)")
+    choice = input("Choose mode (1/2): ")
+    
+    ca = CellularAutomata(width=100, height=100, rule=30)
+    
+    if choice == '1':
+        ca.mode = 'elementary'
+        rule = int(input("Enter rule (0-255): ") or "30")
+        ca.rule = rule
+        ca.set_initial_pattern('single')
+        print(f"Rule {rule}: Binary = {bin(rule).zfill(8)}")
+    else:
+        ca.mode = 'gameoflife'
+        ca.set_initial_pattern('glider')
+        
+    # Simple animation
+    fig, ax = plt.subplots(figsize=(8, 8))
+    
+    def update(frame):
+        ca.step()
+        ca.draw(ax)
+        
+    ani = animation.FuncAnimation(fig, update, frames=100, interval=100, repeat=False)
+    plt.show()
+
+if __name__ == "__main__":
+    main()
+`;
+            
+            const blob = new Blob([code], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ca_simulator.py';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Mouse input for drawing
+        let drawing = false;
+        canvas.addEventListener('mousedown', (e) => { drawing = true; toggleCell(e); });
+        canvas.addEventListener('mousemove', (e) => { if (drawing) toggleCell(e); });
+        canvas.addEventListener('mouseup', () => { drawing = false; });
+        canvas.addEventListener('mouseleave', () => { drawing = false; });
+        
+        function toggleCell(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+            if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+                grid[y][x] = grid[y][x] ? 0 : 1;
+                draw();
+            }
+        }
+        
+        // Initialize
+        initGrid();
+        grid[Math.floor(ROWS/2)][Math.floor(COLS/2)] = 1;
+        draw();
+    </script>
+</body>
+</html>
