@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏓 Pickleball Plyometric Training | Plate Hops & Reactive Drills</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .back-link {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Intro Card */
+        .intro-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .intro-card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .intro-card p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .quote-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-style: italic;
+            border-left: 5px solid rgba(255,255,255,0.5);
+        }
+        
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .benefit-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid #667eea;
+        }
+        .benefit-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .benefit-card p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .benefit-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        /* Exercise Sections */
+        .exercise-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .exercise-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .exercise-section h3 {
+            color: #764ba2;
+            margin: 25px 0 15px;
+            font-size: 1.4em;
+        }
+        
+        /* Exercise Cards */
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .exercise-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #10b981;
+        }
+        .exercise-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .exercise-card ul {
+            color: #666;
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        .exercise-card .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .difficulty-beginner { background: #d1fae5; color: #065f46; }
+        .difficulty-intermediate { background: #fef3c7; color: #92400e; }
+        .difficulty-advanced { background: #fee2e2; color: #991b1b; }
+        
+        /* Tips Box */
+        .tips-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: #92400e;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .tips-box ul {
+            color: #78350f;
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .warning-box h4 {
+            color: #991b1b;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .warning-box ul {
+            color: #7f1d1d;
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        /* Progression Timeline */
+        .progression-timeline {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progression-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .progression-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-content h5 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .step-content p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/exercise-gif-library" class="back-link">← Back to Warmup Library</a>
+        
+        <div class="header">
+            <h1>⚡ Pickleball Plyometric Training</h1>
+            <p>Plate Hops & Reactive Drills for Court Performance</p>
+        </div>
+        
+        <!-- Introduction -->
+        <div class="intro-card">
+            <h2>🎯 Why Plyometrics for Pickleball?</h2>
+            <p>
+                Plyometric training is a staple for building explosive power, quick reflexes, and injury resilience. 
+                Moving up to two plates was surprisingly harder than expected—but that's where the real gains happen!
+            </p>
+            
+            <div class="quote-box">
+                "It's not about jumping straight into the flashy stuff. The real progress comes from mastering the basics. 
+                Keep it light, reactive, and controlled. Think 'bounce', not 'jump'."
+            </div>
+            
+            <p>
+                Whether you're a beginner or advanced player, plyometrics build the foundation for quick court movement, 
+                split-step readiness, and explosive direction changes.
+            </p>
+        </div>
+        
+        <!-- Benefits -->
+        <h2 style="color: white; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+            💪 What You're Building
+        </h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">🦵</div>
+                <h3>Ankle Stiffness</h3>
+                <p>Develop elastic energy storage in calves and Achilles for quick direction changes and split-step readiness.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">⚡</div>
+                <h3>Quick Ground Contact</h3>
+                <p>Reduce time on ground = faster first step to the ball. Essential for kitchen line battles.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🎵</div>
+                <h3>Rhythm & Coordination</h3>
+                <p>Smooth, efficient movement patterns translate to better court coverage and shot preparation.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🎯</div>
+                <h3>Control in All Directions</h3>
+                <p>Forward, backward, lateral, diagonal—pickleball demands multi-directional agility.</p>
+            </div>
+        </div>
+        
+        <!-- Plate Hops Section -->
+        <div class="exercise-section">
+            <h2>🏋️ Plate Hops Fundamentals</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                Plate hops use weight plates (typically 10-25lb / 5-10kg bumper plates) as obstacles for jumping drills. 
+                They're surprisingly challenging, especially for single-leg work!
+            </p>
+            
+            <h3>📋 Basic Patterns</h3>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <span class="difficulty difficulty-beginner">Beginner</span>
+                    <h4>Two-Foot Forward/Backward</h4>
+                    <ul>
+                        <li>Stand beside plate, hop over forward</li>
+                        <li>Immediately hop back</li>
+                        <li>Focus: Soft landing, quick rebound</li>
+                        <li>Volume: 2-3 sets × 10-15 reps</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card">
+                    <span class="difficulty difficulty-intermediate">Intermediate</span>
+                    <h4>Lateral Hops</h4>
+                    <ul>
+                        <li>Hop side-to-side over plate</li>
+                        <li>Stay light on toes</li>
+                        <li>Focus: Ankle stability, knee alignment</li>
+                        <li>Volume: 2-3 sets × 10-15 reps each side</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card">
+                    <span class="difficulty difficulty-advanced">Advanced</span>
+                    <h4>Single-Leg Hops</h4>
+                    <ul>
+                        <li>Hop over plate on one leg</li>
+                        <li>Control landing, don't collapse knee</li>
+                        <li>Focus: Balance, proprioception</li>
+                        <li>Volume: 2-3 sets × 6-10 reps each leg</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card">
+                    <span class="difficulty difficulty-advanced">Advanced</span>
+                    <h4>Multi-Directional Pattern</h4>
+                    <ul>
+                        <li>Arrange 4 plates in square</li>
+                        <li>Hop forward, lateral, diagonal, rotate</li>
+                        <li>Focus: Court movement simulation</li>
+                        <li>Volume: 2-3 sets × 30-45 seconds</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tips-box">
+                <h4>💡 Pro Tips</h4>
+                <ul>
+                    <li><strong>Start with 1 plate:</strong> Master the movement before adding height</li>
+                    <li><strong>Focus on "bounce":</strong> Use elastic energy, not brute force</li>
+                    <li><strong>Land softly:</strong> Absorb impact through muscles, not joints</li>
+                    <li><strong>Stay consistent:</strong> The gains sneak up on you over time!</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Pickleball-Specific Section -->
+        <div class="exercise-section">
+            <h2>🏓 Pickleball-Specific Applications</h2>
+            
+            <h3>Court Movement Patterns</h3>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <h4>Kitchen → Baseline Transition</h4>
+                    <ul>
+                        <li>Forward/backward plate hops</li>
+                        <li>Simulates: Moving back for lob, then rushing net</li>
+                        <li>Benefit: Faster transition footwork</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card">
+                    <h4>Wide Ball Coverage</h4>
+                    <ul>
+                        <li>Lateral plate hops</li>
+                        <li>Simulates: Reaching wide dinks or drives</li>
+                        <li>Benefit: Improved side-to-side speed</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card">
+                    <h4>Cross-Court Diagonals</h4>
+                    <ul>
+                        <li>Diagonal hops over plate</li>
+                        <li>Simulates: Cross-court rally movement</li>
+                        <li>Benefit: Efficient angular footwork</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card">
+                    <h4>Split-Step Reactivity</h4>
+                    <ul>
+                        <li>Quick hops + partner cue</li>
+                        <li>Simulates: Reacting to opponent's shot</li>
+                        <li>Benefit: Faster first-step quickness</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progression Timeline -->
+        <div class="exercise-section">
+            <h2>📈 8-Week Progression Plan</h2>
+            <div class="progression-timeline">
+                <div class="progression-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h5>Weeks 1-2: Foundation</h5>
+                        <p>Two-foot forward/backward hops (1 plate). Focus on landing mechanics and rhythm. 2×10 reps, 2x/week.</p>
+                    </div>
+                </div>
+                <div class="progression-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h5>Weeks 3-4: Lateral Stability</h5>
+                        <p>Add lateral hops. Introduce single-leg balance holds (no jump yet). 2×10 forward/back, 2×10 lateral.</p>
+                    </div>
+                </div>
+                <div class="progression-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h5>Weeks 5-6: Single-Leg Introduction</h5>
+                        <p>Begin single-leg hops (1 plate). Start with 2×6 reps each leg. Add diagonal patterns.</p>
+                    </div>
+                </div>
+                <div class="progression-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h5>Weeks 7-8: Advanced Patterns</h5>
+                        <p>Increase to 2 plates. Multi-directional circuits. Single-leg 3×8 reps. Add reactive cues.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fascia Connection -->
+        <div class="exercise-section">
+            <h2>🧬 Fascia Health Connection</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                Plyometrics directly train the fascial lines we documented in the 
+                <a href="#" style="color: #667eea;">Pickleball Fascia Guide</a>:
+            </p>
+            
+            <div class="exercise-grid">
+                <div class="exercise-card" style="border-left-color: #ef4444;">
+                    <h4>Superficial Back Line</h4>
+                    <p>Calves, hamstrings, erector spinae store and release elastic energy with each hop.</p>
+                </div>
+                <div class="exercise-card" style="border-left-color: #10b981;">
+                    <h4>Lateral Line</h4>
+                    <p>Hip abductors and IT band stabilize during lateral hops, preventing knee valgus.</p>
+                </div>
+                <div class="exercise-card" style="border-left-color: #667eea;">
+                    <h4>Deep Front Line</h4>
+                    <p>Core and hip flexors stabilize landing, protecting lower back.</p>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ Injury Prevention</h4>
+                <ul>
+                    <li><strong>Plantar fasciitis:</strong> Progressive loading strengthens foot fascia</li>
+                    <li><strong>Achilles tendinopathy:</strong> Elastic training improves tendon resilience</li>
+                    <li><strong>IT band syndrome:</strong> Lateral stability reduces friction</li>
+                    <li><strong>Patellar pain:</strong> Proper landing mechanics reduce knee stress</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- When to Train -->
+        <div class="exercise-section">
+            <h2>⏰ When to Train Plyometrics</h2>
+            
+            <div class="exercise-grid">
+                <div class="exercise-card" style="border-left-color: #10b981;">
+                    <h4>✅ Best Timing</h4>
+                    <ul>
+                        <li>Post-warmup, BEFORE playing</li>
+                        <li>Fresh legs = quality movement</li>
+                        <li>2-3 times per week</li>
+                        <li>10-15 minutes per session</li>
+                    </ul>
+                </div>
+                
+                <div class="exercise-card" style="border-left-color: #ef4444;">
+                    <h4>❌ Avoid When</h4>
+                    <ul>
+                        <li>After fatigue (post-match)</li>
+                        <li>Existing ankle/knee pain</li>
+                        <li>Insufficient warmup</li>
+                        <li>Daily (needs recovery!)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>🏓 Part of the Pickleball Performance Series</p>
+            <p style="margin-top: 10px;">
+                <a href="/exercise-gif-library">← Back to Warmup Library</a> | 
+                <a href="#">Fascia Guide</a> | 
+                <a href="#">Geometry & Strategy</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                "If you stay consistent, the gains sneak up on you!" 💪
+            </p>
+        </div>
+    </div>
+</body>
+</html>
