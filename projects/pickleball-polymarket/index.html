@@ -32,7 +32,7 @@
             border-bottom: 4px solid var(--ball-yellow);
         }
 
-        .hero h1 { font-weight: 700; font-size: 2rem; }
+        .hero h1 { font-weight: 700; font-size: 1.8rem; }
         .hero .subtitle { color: rgba(255,255,255,0.8); font-size: 0.95rem; }
 
         .ball-icon {
@@ -65,23 +65,25 @@
             box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
         }
 
-        .bet-options { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+        .question-box small { opacity: 0.75; font-weight: 400; }
 
-        .bet-btn {
+        .player-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+
+        .player-btn {
             background: var(--card-bg);
             border: 2px solid var(--card-border);
             color: #e0e6ed;
-            padding: 0.6rem 1.25rem;
+            padding: 0.5rem 0.85rem;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
-        .bet-btn:hover, .bet-btn.selected {
-            border-color: var(--accent);
-            background: rgba(108, 92, 231, 0.2);
+        .player-btn:hover, .player-btn.selected {
+            border-color: var(--ball-yellow);
+            background: rgba(212, 230, 0, 0.15);
             color: #fff;
         }
 
@@ -121,33 +123,34 @@
         .odds-table th {
             color: rgba(255,255,255,0.5);
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             padding: 0.5rem;
             border-bottom: 1px solid var(--card-border);
         }
         .odds-table td {
-            padding: 0.75rem 0.5rem;
+            padding: 0.6rem 0.4rem;
             border-bottom: 1px solid rgba(30, 45, 77, 0.5);
             vertical-align: middle;
+            font-size: 0.9rem;
         }
 
-        .color-dot {
-            width: 14px; height: 14px;
+        .player-dot {
+            width: 12px; height: 12px;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 6px;
+            margin-right: 5px;
         }
 
         .bettor-name { font-weight: 600; }
         .bettor-pushups {
             background: rgba(212, 230, 0, 0.15);
             color: var(--ball-yellow);
-            padding: 2px 10px;
+            padding: 2px 8px;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .total-row { font-weight: 700; color: #fff; }
@@ -253,6 +256,8 @@
             border-color: var(--accent);
         }
 
+        .admin-input option { background: var(--court-dark); }
+
         .refresh-hint {
             text-align: center;
             color: rgba(255,255,255,0.3);
@@ -277,10 +282,22 @@
 
         .name-input::placeholder { color: rgba(255,255,255,0.3); }
 
+        .match-info {
+            background: rgba(212, 230, 0, 0.1);
+            border: 1px solid rgba(212, 230, 0, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .match-info span { color: var(--ball-yellow); font-weight: 600; }
+
         @media (max-width: 576px) {
-            .hero h1 { font-size: 1.5rem; }
+            .hero h1 { font-size: 1.4rem; }
             .question-box { font-size: 1rem; padding: 1rem; }
-            .bet-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+            .player-btn { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -293,9 +310,13 @@
 </div>
 
 <div class="container py-4" style="max-width: 600px;">
+    <div class="match-info">
+        🎾 Tonight's Match | 8 Players | 14 Games | <span>7–9 PM</span>
+    </div>
+
     <div class="question-box" id="questionBox">
-        🏸 新打球場墊係咩顏色？<br>
-        <small style="opacity:0.75;font-weight:400">What color is the new court mat?</small>
+        🏆 今晚邊個 win count 最多？<br>
+        <small>Who has the most wins tonight?</small>
     </div>
 
     <div class="result-banner" id="resultBanner">
@@ -310,13 +331,9 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label" style="color:rgba(255,255,255,0.6);font-size:0.85rem;">Pick your color</label>
-            <div class="bet-options" id="betOptions">
-                <button class="bet-btn" data-color="Blue" style="--dot:#2196F3">🔵 Blue</button>
-                <button class="bet-btn" data-color="Purple" style="--dot:#9b59b6">🟣 Purple</button>
-                <button class="bet-btn" data-color="Green" style="--dot:#27ae60">🟢 Green</button>
-                <button class="bet-btn" data-color="Red" style="--dot:#e74c3c">🔴 Red</button>
-                <button class="bet-btn" data-color="Other" style="--dot:#95a5a6">⚪ Other</button>
+            <label class="form-label" style="color:rgba(255,255,255,0.6);font-size:0.85rem;">Pick the player you think will win the most</label>
+            <div class="player-grid" id="playerGrid">
+                <!-- Filled by JS -->
             </div>
         </div>
 
@@ -339,7 +356,7 @@
         <table class="odds-table" id="oddsTable">
             <thead>
                 <tr>
-                    <th>Option</th>
+                    <th>Player</th>
                     <th class="text-center">Bettors</th>
                     <th class="text-center">Total Push-ups</th>
                     <th class="text-end">Odds</th>
@@ -353,18 +370,20 @@
 
     <div class="admin-section">
         <h6>🔐 Admin (Reveal Result)</h6>
-        <div class="d-flex gap-2 mb-2">
-            <input type="password" class="admin-input flex-grow-1" id="adminPassword" placeholder="Admin password" style="max-width:200px;">
-            <select class="admin-input" id="winnerSelect" style="flex:1;">
-                <option value="">Select winning color...</option>
-                <option value="Blue">Blue</option>
-                <option value="Purple">Purple</option>
-                <option value="Green">Green</option>
-                <option value="Red">Red</option>
-                <option value="Other">Other</option>
+        <div class="mb-2">
+            <input type="password" class="admin-input" id="adminPassword" placeholder="Admin password" style="max-width:160px;">
+        </div>
+        <div class="mb-2">
+            <label class="form-label" style="color:rgba(255,255,255,0.5);font-size:0.8rem;">Winner (most wins)</label>
+            <select class="admin-input" id="winnerSelect" style="width:100%;">
+                <option value="">Select winning player...</option>
             </select>
         </div>
-        <button class="reveal-btn w-100" id="revealBtn">Reveal Result &amp; Pay Winners 🎉</button>
+        <div class="mb-2">
+            <label class="form-label" style="color:rgba(255,255,255,0.5);font-size:0.8rem;">Winner's win count</label>
+            <input type="number" class="admin-input" id="winCountInput" placeholder="e.g. 5" min="0" max="14" style="width:100px;">
+        </div>
+        <button class="reveal-btn w-100" id="revealBtn">Reveal Result & Pay Winners 🎉</button>
     </div>
 
     <p class="refresh-hint">💡 Refresh page to see latest bets. Data saved locally.</p>
@@ -372,20 +391,37 @@
 
 <script>
 (function() {
-    const STORAGE_KEY = 'pickleball_bets_v1';
+    const STORAGE_KEY = 'pickleball_bets_v2';
     const ADMIN_PWD = 'pickle2024';
 
-    const COLORS = ['Blue', 'Purple', 'Green', 'Red', 'Other'];
-    const COLOR_DOTS = {
-        Blue: '#2196F3', Purple: '#9b59b6', Green: '#27ae60', Red: '#e74c3c', Other: '#95a5a6'
+    const PLAYERS = [
+        'Raymond', 'Pulley', 'Debbie', 'Rico', 
+        'Amanda', 'Kenneth', 'Ivan', 'Edmond'
+    ];
+
+    // Absent tonight
+    const ABSENT_PLAYERS = ['Sophia', 'Heidi'];
+
+    const PLAYER_COLORS = {
+        'Raymond': '#e74c3c',
+        'Pulley': '#3498db',
+        'Debbie': '#9b59b6',
+        'Rico': '#f39c12',
+        'Amanda': '#e67e22',
+        'Kenneth': '#2ecc71',
+        'Ivan': '#34495e',
+        'Edmond': '#e91e63',
+        'Sophia': '#95a5a6',
+        'Heidi': '#1abc9c'
     };
 
     let state = {
-        selectedColor: null,
+        selectedPlayer: null,
         pushups: 5,
         bets: [],
         revealed: false,
-        winner: null
+        winner: null,
+        winnerWins: 0
     };
 
     // Load
@@ -396,12 +432,13 @@
             state.bets = parsed.bets || [];
             state.revealed = parsed.revealed || false;
             state.winner = parsed.winner || null;
+            state.winnerWins = parsed.winnerWins || 0;
         }
     } catch(e) {}
 
     // DOM
     const bettorName = document.getElementById('bettorName');
-    const betOptions = document.getElementById('betOptions');
+    const playerGrid = document.getElementById('playerGrid');
     const decBtn = document.getElementById('decBtn');
     const incBtn = document.getElementById('incBtn');
     const pushupCount = document.getElementById('pushupCount');
@@ -409,20 +446,45 @@
     const oddsBody = document.getElementById('oddsBody');
     const adminPassword = document.getElementById('adminPassword');
     const winnerSelect = document.getElementById('winnerSelect');
+    const winCountInput = document.getElementById('winCountInput');
     const revealBtn = document.getElementById('revealBtn');
     const resultBanner = document.getElementById('resultBanner');
     const resultTitle = document.getElementById('resultTitle');
     const resultText = document.getElementById('resultText');
     const betCard = document.getElementById('betCard');
 
-    // Color selection
-    betOptions.querySelectorAll('.bet-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            betOptions.querySelectorAll('.bet-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            state.selectedColor = btn.dataset.color;
+    // Build player grid
+    function buildPlayerGrid() {
+        playerGrid.innerHTML = '';
+        PLAYERS.forEach(player => {
+            const isAbsent = ABSENT_PLAYERS.includes(player);
+            const btn = document.createElement('button');
+            btn.className = 'player-btn' + (isAbsent ? ' absent' : '');
+            btn.dataset.player = player;
+            btn.innerHTML = isAbsent ? `${player} 🚫` : player;
+            btn.style.opacity = isAbsent ? '0.4' : '1';
+            btn.style.cursor = isAbsent ? 'not-allowed' : 'pointer';
+            if (!isAbsent) {
+                btn.addEventListener('click', () => {
+                    playerGrid.querySelectorAll('.player-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    state.selectedPlayer = player;
+                });
+            }
+            playerGrid.appendChild(btn);
         });
-    });
+
+        // Populate admin select
+        winnerSelect.innerHTML = '<option value="">Select winning player...</option>';
+        PLAYERS.forEach(player => {
+            if (!ABSENT_PLAYERS.includes(player)) {
+                const opt = document.createElement('option');
+                opt.value = player;
+                opt.textContent = player;
+                winnerSelect.appendChild(opt);
+            }
+        });
+    }
 
     // Stepper
     decBtn.addEventListener('click', () => {
@@ -436,10 +498,10 @@
     submitBtn.addEventListener('click', () => {
         const name = bettorName.value.trim();
         if (!name) { alert('Please enter your name!'); bettorName.focus(); return; }
-        if (!state.selectedColor) { alert('Please pick a color!'); return; }
+        if (!state.selectedPlayer) { alert('Please pick a player!'); return; }
 
         state.bets.push({
-            name, color: state.selectedColor, pushups: state.pushups, timestamp: Date.now()
+            name, player: state.selectedPlayer, pushups: state.pushups, timestamp: Date.now()
         });
         save();
         bettorName.value = '';
@@ -456,12 +518,13 @@
             return;
         }
         if (!winnerSelect.value) {
-            alert('Please select the winning color!');
+            alert('Please select the winning player!');
             return;
         }
 
         state.revealed = true;
         state.winner = winnerSelect.value;
+        state.winnerWins = parseInt(winCountInput.value) || 0;
         save();
         renderReveal();
     });
@@ -470,7 +533,8 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
             bets: state.bets,
             revealed: state.revealed,
-            winner: state.winner
+            winner: state.winner,
+            winnerWins: state.winnerWins
         }));
     }
 
@@ -485,17 +549,17 @@
         }
 
         let html = '';
-        COLORS.forEach(color => {
-            const colorBets = state.bets.filter(b => b.color === color);
-            const colorTotal = colorBets.reduce((s, b) => s + b.pushups, 0);
-            const pct = totalPushups > 0 ? Math.round((colorTotal / totalPushups) * 100) : 0;
+        PLAYERS.filter(p => !ABSENT_PLAYERS.includes(p)).forEach(player => {
+            const playerBets = state.bets.filter(b => b.player === player);
+            const playerTotal = playerBets.reduce((s, b) => s + b.pushups, 0);
+            const pct = totalPushups > 0 ? Math.round((playerTotal / totalPushups) * 100) : 0;
             const odds = pct > 0 ? Math.round(100 / pct) / 10 : 0;
 
             html += `
             <tr>
-                <td><span class="color-dot" style="background:${COLOR_DOTS[color]}"></span>${color}</td>
-                <td class="text-center" style="color:rgba(255,255,255,0.7)">${colorBets.length}</td>
-                <td class="text-center"><span class="bettor-pushups">${colorTotal}</span></td>
+                <td><span class="player-dot" style="background:${PLAYER_COLORS[player] || '#888'}"></span>${player}</td>
+                <td class="text-center" style="color:rgba(255,255,255,0.7)">${playerBets.length}</td>
+                <td class="text-center"><span class="bettor-pushups">${playerTotal}</span></td>
                 <td class="text-end" style="font-weight:600;color:${pct > 0 ? 'var(--ball-yellow)' : 'rgba(255,255,255,0.3)'}">${pct > 0 ? odds.toFixed(1) + 'x' : '—'}</td>
             </tr>`;
         });
@@ -512,7 +576,7 @@
     }
 
     function renderReveal() {
-        const winners = state.bets.filter(b => b.color === state.winner);
+        const winners = state.bets.filter(b => b.player === state.winner);
         const totalPushups = state.bets.reduce((s, b) => s + b.pushups, 0);
 
         if (winners.length > 0) {
@@ -521,19 +585,19 @@
             const winnerNames = winners.map(w => w.name).join(', ');
 
             resultBanner.className = 'result-banner winners-found';
-            resultTitle.textContent = `🎉 ${state.winner} Wins!`;
+            resultTitle.textContent = `🎉 ${state.winner} Wins! (${state.winnerWins} wins)`;
             resultText.innerHTML = `${winnerNames} guessed correctly!<br>Each winner collects <strong>${eachWin} push-ups</strong> from the pool of ${totalPushups}!`;
             betCard.style.display = 'none';
 
             let html = `<tr><td colspan="4" style="text-align:center;color:var(--court-green);font-weight:700;padding:0.5rem;">🏆 WINNERS</td></tr>`;
             winners.forEach(w => {
-                html += `<tr><td><span class="color-dot" style="background:${COLOR_DOTS[w.color]}"></span>${w.name}</td><td class="text-center">1</td><td class="text-center"><span class="bettor-pushups">${w.pushups}</span></td><td class="text-end"><span class="winner-badge">+${eachWin} 🏆</span></td></tr>`;
+                html += `<tr><td><span class="player-dot" style="background:${PLAYER_COLORS[w.player] || '#888'}"></span>${w.name}</td><td class="text-center">1</td><td class="text-center"><span class="bettor-pushups">${w.pushups}</span></td><td class="text-end"><span class="winner-badge">+${eachWin} 🏆</span></td></tr>`;
             });
 
             html += `<tr><td colspan="4" style="height:0.5rem"></td></tr>`;
             html += `<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.4);font-weight:700;padding:0.5rem;">Others</td></tr>`;
-            state.bets.filter(b => b.color !== state.winner).forEach(w => {
-                html += `<tr><td><span class="color-dot" style="background:${COLOR_DOTS[w.color]}"></span>${w.name}</td><td class="text-center">1</td><td class="text-center"><span class="bettor-pushups">${w.pushups}</span></td><td class="text-end" style="color:#e74c3c">−${w.pushups} 💪</td></tr>`;
+            state.bets.filter(b => b.player !== state.winner).forEach(w => {
+                html += `<tr><td><span class="player-dot" style="background:${PLAYER_COLORS[w.player] || '#888'}"></span>${w.name}</td><td class="text-center">1</td><td class="text-center"><span class="bettor-pushups">${w.pushups}</span></td><td class="text-end" style="color:#e74c3c">−${w.pushups} 💪</td></tr>`;
             });
 
             html += `<tr class="total-row"><td>Total</td><td class="text-center">${state.bets.length}</td><td class="text-center"><span class="bettor-pushups">${totalPushups}</span></td><td class="text-end"></td></tr>`;
@@ -546,7 +610,7 @@
 
             let html = `<tr><td colspan="4" style="text-align:center;color:#e74c3c;font-weight:700;padding:0.5rem;">Everyone loses 💪</td></tr>`;
             state.bets.forEach(w => {
-                html += `<tr><td><span class="color-dot" style="background:${COLOR_DOTS[w.color]}"></span>${w.name}</td><td class="text-center">1</td><td class="text-center"><span class="bettor-pushups">${w.pushups}</span></td><td class="text-end" style="color:#e74c3c">−${w.pushups}</td></tr>`;
+                html += `<tr><td><span class="player-dot" style="background:${PLAYER_COLORS[w.player] || '#888'}"></span>${w.name}</td><td class="text-center">1</td><td class="text-center"><span class="bettor-pushups">${w.pushups}</span></td><td class="text-end" style="color:#e74c3c">−${w.pushups}</td></tr>`;
             });
             html += `<tr class="total-row"><td>Total</td><td class="text-center">${state.bets.length}</td><td class="text-center"><span class="bettor-pushups">${totalPushups}</span></td><td class="text-end"></td></tr>`;
             oddsBody.innerHTML = html;
@@ -554,6 +618,7 @@
     }
 
     // Init
+    buildPlayerGrid();
     if (state.revealed) {
         bettorName.disabled = true;
         submitBtn.disabled = true;
